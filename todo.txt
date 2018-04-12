@@ -1,0 +1,2 @@
+- fix array declare index must be intliteral, not expression in mc.g4
+- check test case in parameter list is failed
