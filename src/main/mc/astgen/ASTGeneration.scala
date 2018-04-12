@@ -29,12 +29,6 @@ class ASTGeneration extends MCBaseVisitor[Any] {
     ctx.getChild(0).accept(this)
 
   override def visitVar_decl(ctx: Var_declContext) = {
-    val myList = List("a", "b", "c")
-
-    myList.zipWithIndex.map { case (element, index) =>
-      println(element, index)
-      s"${element}(${index})"
-    }
     var vtype = ctx.primitivetype.accept(this).asInstanceOf[Type]
     flatten(ctx.variable.asScala.toList.zipWithIndex.map{case (s,i)=> {
       if(ctx.variable(i).getChildCount > 1)
@@ -42,39 +36,6 @@ class ASTGeneration extends MCBaseVisitor[Any] {
       VarDecl(Id(ctx.variable(i).IDENTIFIERS().getText.toString),vtype)
     }})
   }
-
-  //  override def visitVar_decl(ctx: Var_declContext) = {
-  //    if (ctx.decl_type1() != null) {
-  //      ctx.decl_type1.accept(this).asInstanceOf[Decl]
-  //    } else {
-  //      ctx.decl_type2().accept(this)
-  //    }
-  //  }
-  //
-  //  override def visitDecl_type1(ctx: Decl_type1Context) = {
-  //    var vtype = ctx.primitivetype().accept(this).asInstanceOf[Type]
-  //    if (ctx.variable.getChildCount > 1) {
-  //      vtype = ArrayType(IntLiteral(ctx.variable().INTLIT().getText.toInt),ctx.primitivetype().accept(this).asInstanceOf[Type])
-  //    }
-  //    VarDecl(Id(ctx.variable.IDENTIFIERS.getText), vtype)
-  //  }
-  //
-  //  override def visitDecl_type2(ctx: Decl_type2Context) = {
-  //
-  //    val vtype = ctx.primitivetype().accept(this).asInstanceOf[Type]
-  //    val size = ctx.list_variable.variable.size()
-  //    var lst = List[VarDecl]()
-  //    for(i<- 0 to size-1) {
-  //      var typev = ctx.primitivetype().accept(this).asInstanceOf[Type]
-  //      var id = ctx.list_variable.variable(i).IDENTIFIERS.getText
-  //      if (ctx.list_variable().variable(i).getChildCount > 1) {
-  //        typev = ArrayType(IntLiteral(ctx.list_variable.variable(i).INTLIT().getText.toInt),ctx.primitivetype().accept(this).asInstanceOf[Type])
-  //      }
-  //      lst = lst :+ VarDecl(Id(ctx.list_variable.variable(i).IDENTIFIERS.getText), typev)
-  //    }
-  //    lst
-  //
-  //  }
 
   override def visitFunc_decl(ctx: Func_declContext) = {
     val id = Id(ctx.IDENTIFIERS.getText.toString)
@@ -89,7 +50,6 @@ class ASTGeneration extends MCBaseVisitor[Any] {
 
   //
   override def visitList_parameter_decl(ctx: List_parameter_declContext) = {
-    println("list parameter")
     ctx.parameter_decl.asScala.toList.map(s => visit(s).asInstanceOf[VarDecl])
   }
 
@@ -107,7 +67,6 @@ class ASTGeneration extends MCBaseVisitor[Any] {
     } else if(ctx.VOID != null) {
       VoidType
     } else {
-      println("int parameter")
       ctx.primitivetype.accept(this).asInstanceOf[Type]
     }
 
@@ -123,7 +82,6 @@ class ASTGeneration extends MCBaseVisitor[Any] {
   override def visitBlock_statement(ctx: Block_statementContext) = {
     var stmt = List[Stmt]()
     var decl = List[Decl]()
-    println("enter block")
     if(ctx.statement() != null) {
       stmt = ctx.statement.asScala.toList.map(s => visitStatement(s).asInstanceOf[Stmt])
     }
@@ -135,8 +93,6 @@ class ASTGeneration extends MCBaseVisitor[Any] {
   }
 
   override def visitStatement(ctx: StatementContext) = {
-    println("enter statement")
-    println(ctx.getChild(0).accept(this).asInstanceOf[Stmt])
     ctx.getChild(0).accept(this).asInstanceOf[Stmt]
   }
 
@@ -155,15 +111,12 @@ class ASTGeneration extends MCBaseVisitor[Any] {
     Dowhile(ctx.statement().asScala.toList.map(s=>visitStatement(s)),ctx.expr().accept(this).asInstanceOf[Expr])
 
   override def visitIf_statement(ctx: If_statementContext) = {
-    println("enter if")
     val expr = ctx.expr().accept(this).asInstanceOf[Expr]
-    println(expr)
     val thenstmt = ctx.statement(0).accept(this).asInstanceOf[Stmt]
     var some = null
     if (ctx.statement(1) != null) {
       If(expr,thenstmt,Some(ctx.statement(1).accept(this).asInstanceOf[Stmt]))
     } else {
-      println(If(expr,thenstmt,None))
       If(expr,thenstmt,None)
     }
   }
@@ -172,14 +125,11 @@ class ASTGeneration extends MCBaseVisitor[Any] {
     For(ctx.expr(0).accept(this).asInstanceOf[Expr],ctx.expr(1).accept(this).asInstanceOf[Expr],ctx.expr(2).accept(this).asInstanceOf[Expr],ctx.statement().accept(this).asInstanceOf[Stmt])
 
   override def visitExpr_statement(ctx: Expr_statementContext) = {
-    println("enter this")
     ctx.expr().accept(this).asInstanceOf[Expr]
   }
 
 
   override def visitExpr(ctx: ExprContext): AnyRef = {
-    println("enter expr")
-    println(ctx.getChildCount())
     if (ctx.getChildCount() == 1) {
       ctx.term1().accept(this).asInstanceOf[Expr]
     } else {
@@ -188,7 +138,6 @@ class ASTGeneration extends MCBaseVisitor[Any] {
   }
 
   override def visitTerm1(ctx: Term1Context) = {
-    println("enter term")
     if (ctx.getChildCount == 1) {
       ctx.term2().accept(this).asInstanceOf[Expr]
     } else {
@@ -204,12 +153,9 @@ class ASTGeneration extends MCBaseVisitor[Any] {
     }
 
   override def visitTerm3(ctx: Term3Context) = {
-    println("enter term3")
-    println(ctx.getChildCount())
     if (ctx.getChildCount() == 1) {
       ctx.term4(0).accept(this).asInstanceOf[Expr]
     } else {
-      println(ctx.term4(0).accept(this).asInstanceOf[Expr])
       BinaryOp(ctx.getChild(1).toString(), ctx.term4(0).accept(this).asInstanceOf[Expr], ctx.term4(1).accept(this).asInstanceOf[Expr])
     }
   }
@@ -257,8 +203,6 @@ class ASTGeneration extends MCBaseVisitor[Any] {
       if(ctx.function_call() != null) {
         ctx.function_call().accept(this).asInstanceOf[Expr]
       } else if(ctx.BOOLEAN_LITERAL() != null) {
-        println(ctx.BOOLEAN_LITERAL(), ctx.BOOLEAN_LITERAL().getText.toBoolean)
-        println(BooleanLiteral(ctx.BOOLEAN_LITERAL().getText.toBoolean))
         BooleanLiteral(ctx.BOOLEAN_LITERAL().getText.toBoolean)
       }  else if(ctx.INTLIT() != null) {
         IntLiteral(ctx.INTLIT().getText.toInt)
@@ -273,8 +217,6 @@ class ASTGeneration extends MCBaseVisitor[Any] {
   }
 
   override def visitFunction_call(ctx: Function_callContext) = {
-    println("enter function call")
-    println(Id(ctx.IDENTIFIERS().getText))
     if (ctx.expr_list() != null)
       CallExpr(Id(ctx.IDENTIFIERS().getText.toString),flatten(ctx.expr_list().accept(this).asInstanceOf[List[Expr]]).asInstanceOf[List[Expr]])
     else {
