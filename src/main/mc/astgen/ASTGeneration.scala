@@ -246,7 +246,8 @@ class ASTGeneration extends MCBaseVisitor[Any] {
     if (ctx.getChildCount() == 1) {
       ctx.term9.accept(this).asInstanceOf[Expr]
     } else {
-      UnaryOp(ctx.getChild(1).toString(), ctx.term9.accept(this).asInstanceOf[Expr])
+//      UnaryOp(ctx.getChild(1).toString(), ctx.term9.accept(this).asInstanceOf[Expr])
+      ArrayCell(ctx.term9().accept(this).asInstanceOf[Expr],ctx.expr().accept(this).asInstanceOf[Expr])
     }
 
   override def visitTerm9(ctx: Term9Context) = {
