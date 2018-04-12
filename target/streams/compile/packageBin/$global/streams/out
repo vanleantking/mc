@@ -1,0 +1,265 @@
+[0m[[0m[0minfo[0m] [0m[0mPackaging E:\workspace scala\ASS2\initial2\target\scala-2.12\mc_2.12-1.0.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Id.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Id.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Program.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Program.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\Excercise.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\Excercise.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\NeverHappen$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\NeverHappen$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Term3Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Term3Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCVisitor.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCVisitor.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\UnaryOp.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\UnaryOp.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$List_parameter_declContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$List_parameter_declContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$List_variableContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$List_variableContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\NeverHappen.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\NeverHappen.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\IntType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\IntType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$One_declContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$One_declContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Decl_type2Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Decl_type2Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Array_pointer_typeContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Array_pointer_typeContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\StringLiteral$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\StringLiteral$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\BoolType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\BoolType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Stmt.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Stmt.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\IntLiteral.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\IntLiteral.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Dowhile.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Dowhile.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$PrimitivetypeContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$PrimitivetypeContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$ProgramContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$ProgramContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Output_param_pointerContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Output_param_pointerContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\FloatType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\FloatType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Dowhile$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Dowhile$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\VarDecl$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\VarDecl$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\ProcessError.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\ProcessError.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\ErrorToken.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\ErrorToken.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\ArrayPointerType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\ArrayPointerType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Function_callContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Function_callContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Id$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Id$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Return$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Return$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\UncloseString.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\UncloseString.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	src[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\src[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Continue_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Continue_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\IntType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\IntType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\BooleanLiteral.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\BooleanLiteral.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Visitor.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Visitor.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$VariableContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$VariableContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Break.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Break.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\FuncDecl.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\FuncDecl.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\FloatLiteral$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\FloatLiteral$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Term2Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Term2Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\BinaryOp.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\BinaryOp.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\LHS.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\LHS.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\FloatType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\FloatType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\StringLiteral.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\StringLiteral.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCLexer.tokens[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCLexer.tokens[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\StringType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\StringType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Return_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Return_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Block$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Block$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Parameter_declContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Parameter_declContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Block.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Block.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\FloatLiteral.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\FloatLiteral.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\astgen[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\astgen[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Break_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Break_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Utils.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Utils.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\BooleanLiteral$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\BooleanLiteral$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Break$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Break$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\If.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\If.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\BaseVisitor.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\BaseVisitor.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Type.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Type.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\Compiler.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\Compiler.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\VarDecl.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\VarDecl.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Input_param_pointerContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Input_param_pointerContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Continue.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Continue.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\BoolType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\BoolType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	src\main\mc\parser\MCLexer.tokens[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\src\main\mc\parser\MCLexer.tokens[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Term4Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Term4Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MC.tokens[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MC.tokens[0m
+[0m[[0m[0mdebug[0m] [0m[0m	src\main\mc\parser[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\src\main\mc\parser[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Expr_listContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Expr_listContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Var_declContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Var_declContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MC.g4[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MC.g4[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\astgen\ASTGeneration.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\astgen\ASTGeneration.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\IntLiteral$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\IntLiteral$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Expr_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Expr_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	src\main[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\src\main[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\ArrayType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\ArrayType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\IllegalEscape.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\IllegalEscape.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Term5Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Term5Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Term8Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Term8Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Decl_type1Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Decl_type1Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$If_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$If_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\StringType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\StringType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\VoidType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\VoidType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Continue$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Continue$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Function_typeContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Function_typeContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Do_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Do_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\CallExpr$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\CallExpr$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\Excercise$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\Excercise$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\ArrayType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\ArrayType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\For$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\For$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Program$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Program$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\BinaryOp$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\BinaryOp$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\If$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\If$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$StatementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$StatementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Block_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Block_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\AST.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\AST.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Decl.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Decl.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\CallExpr.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\CallExpr.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\FuncDecl$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\FuncDecl$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\ArrayCell.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\ArrayCell.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\Timed.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\Timed.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Term1Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Term1Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Expr.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Expr.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\For.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\For.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	src\main\mc[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\src\main\mc[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\VoidType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\VoidType.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\UnaryOp$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\UnaryOp$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCBaseVisitor.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCBaseVisitor.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	src\main\mc\parser\MC.tokens[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\src\main\mc\parser\MC.tokens[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Return.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Return.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$ExprContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$ExprContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Func_declContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Func_declContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Term9Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Term9Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\Literal.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\Literal.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$For_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$For_statementContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Term7Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Term7Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCLexer.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCLexer.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\Compiler$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\Compiler$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\ArrayCell$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\ArrayCell$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$TypeContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$TypeContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\ProcessError$$anon$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\ProcessError$$anon$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Term6Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Term6Context.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\utils\ArrayPointerType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\utils\ArrayPointerType$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\Timed$$anon$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\Timed$$anon$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	mc\parser\MCParser$Array_typeContext.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  E:\workspace scala\ASS2\initial2\target\scala-2.12\classes\mc\parser\MCParser$Array_typeContext.class[0m
+[0m[[0m[0minfo[0m] [0m[0mDone packaging.[0m

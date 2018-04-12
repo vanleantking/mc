@@ -1,0 +1,2 @@
+void func () {
+         do {{break ;}{continue;} while(1);}

@@ -1,0 +1,2 @@
+void func () {
+         do {{}{}} while(1);}

@@ -1,0 +1,3 @@
+void a(){
+         b = function(2)[3+x] + goo[3];
+        }

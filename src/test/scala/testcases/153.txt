@@ -1,0 +1,3 @@
+int a(){
+        return g(2) + foo(2)[4+f];
+        }

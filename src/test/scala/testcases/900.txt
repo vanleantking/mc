@@ -1,0 +1,2 @@
+boolean func () {
+         void a() {void i;}

@@ -1,0 +1,2 @@
+void func () {
+         for(;int i;)
