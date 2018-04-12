@@ -169,10 +169,18 @@ class AstSuite extends FunSuite with TestAst {
     * Test ast generation
     */
   test("a simple empty main int type with parameter list 227") {
-    val input = "int a() { function(u,v) + 4 = f(t,u) + 4;}"
-    val expected = Program(List(FuncDecl(Id("a"),List(),IntType,Block(List(),List(BinaryOp("=",BinaryOp("+",CallExpr(Id("func"),List(Id("u"),Id("v"))),IntLiteral(4)),BinaryOp("+",IntLiteral(3),IntLiteral(4))))))))
+    val input = "int a(int a) { int a; a[f(3)+4] = funct[3] + g()+ 6;function(u,v) + 4 = (f(t,u) + 4)*6;}"
+    val expected = Program(List(FuncDecl(Id("a"),List(VarDecl(Id("a"),IntType)),IntType,Block(List(VarDecl(Id("a"),IntType)),List(BinaryOp("=",BinaryOp("+",CallExpr(Id("func"),List(Id("u"),Id("v"))),IntLiteral(4)),BinaryOp("+",IntLiteral(3),IntLiteral(4))))))))
     assert(checkAst(input,expected,227))
   }
+
+  test("a simple empty main int type with parameter list 228") {
+    val input = "int a(int a) { int a; a[f(x)+3] = funct[3] + g(y,u)+ 6;}"
+    val expected = Program(List(FuncDecl(Id("a"),List(VarDecl(Id("a"),IntType)),IntType,Block(List(VarDecl(Id("a"),IntType)),List(BinaryOp("=",BinaryOp("+",CallExpr(Id("func"),List(Id("u"),Id("v"))),IntLiteral(4)),BinaryOp("+",IntLiteral(3),IntLiteral(4))))))))
+    assert(checkAst(input,expected,228))
+  }
+
+
 
 
   /**
@@ -299,11 +307,11 @@ class AstSuite extends FunSuite with TestAst {
 //    assert(checkAst(input,expected,234))
 //  }
 //
-  test("a int function with no else if statement") {
-    val input = "int a() {if(true==true) d = d+5;}"
-    val expected = Program(List(FuncDecl(Id("main"),List(),VoidType,Block(List(),List()))))
-    assert(checkAst(input,expected,235))
-  }
+//  test("a int function with no else if statement") {
+//    val input = "int a() {if(true==true) d = d+5;}"
+//    val expected = Program(List(FuncDecl(Id("main"),List(),VoidType,Block(List(),List()))))
+//    assert(checkAst(input,expected,235))
+//  }
 //
 //  test("a int function with if else statement") {
 //    val input = "int a() {if(true==true) d = d+5; else d = d-5;}"
