@@ -1,1 +1,0 @@
-Program(List(FuncDecl(Id(a),List(),IntType,Block(List(),List(BinaryOp(=,BinaryOp(+,CallExpr(Id(function),List(Id(u),Id(v))),IntLiteral(4)),BinaryOp(+,CallExpr(Id(f),List(Id(t),Id(u))),IntLiteral(4))))))))

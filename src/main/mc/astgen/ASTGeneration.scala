@@ -53,12 +53,15 @@ class ASTGeneration extends MCBaseVisitor[Any] {
     ctx.parameter_decl.asScala.toList.map(s => visit(s).asInstanceOf[VarDecl])
   }
 
-  override def visitParameter_decl(ctx: Parameter_declContext) =
-    if (ctx.LSB != null) {
-      VarDecl(Id(ctx.IDENTIFIERS().getText.toString), ArrayPointerType(ctx.primitivetype().accept(this).asInstanceOf[Type]))
+  override def visitParameter_decl(ctx: Parameter_declContext) = {
+    val ptype = ctx.primitivetype().accept(this).asInstanceOf[Type]
+    val id = Id(ctx.IDENTIFIERS().getText.toString)
+    if (ctx.getChildCount > 2) {
+      VarDecl(id, ArrayPointerType(ptype))
     } else {
-      VarDecl(Id(ctx.IDENTIFIERS().getText.toString), ctx.primitivetype().accept(this).asInstanceOf[Type])
+      VarDecl(id, ptype)
     }
+  }
 
   //
   override def visitFunction_type(ctx: Function_typeContext) =
@@ -185,7 +188,7 @@ class ASTGeneration extends MCBaseVisitor[Any] {
     if (ctx.getChildCount() == 1) {
       ctx.term8.accept(this).asInstanceOf[Expr]
     } else {
-      UnaryOp(ctx.getChild(1).toString(), ctx.term7.accept(this).asInstanceOf[Expr])
+      UnaryOp(ctx.getChild(0).getText.toString(), ctx.term7().accept(this).asInstanceOf[Expr])
     }
 
   override def visitTerm8(ctx: Term8Context) =
