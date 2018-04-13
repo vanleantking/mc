@@ -1,1 +1,0 @@
-int a(){v=func(a,b)+7;}

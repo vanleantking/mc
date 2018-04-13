@@ -174,10 +174,23 @@ class AstSuite extends FunSuite with TestAst {
     assert(checkAst(input,expected,227))
   }
 
+//  test("a simple empty main int type with parameter list 228") {
+//    val input = "int[] a(int a[], boolean b[]) { int a; function[f(4,y) + 5] + 4 = (f(t,u) + 4)*6;}"
+//    val expected = Program(List(FuncDecl(Id("a"),List(VarDecl(Id("a"),IntType)),IntType,Block(List(VarDecl(Id("a"),IntType)),List(BinaryOp("=",BinaryOp("+",CallExpr(Id("func"),List(Id("u"),Id("v"))),IntLiteral(4)),BinaryOp("+",IntLiteral(3),IntLiteral(4))))))))
+//    assert(checkAst(input,expected,228))
+//  }
+
+//
   test("a simple empty main int type with parameter list 228") {
     val input = "int a(int a) { int a; a[f(x)+3] = funct[3] + g(y,u)+ 6;}"
     val expected = Program(List(FuncDecl(Id("a"),List(VarDecl(Id("a"),IntType)),IntType,Block(List(VarDecl(Id("a"),IntType)),List(BinaryOp("=",BinaryOp("+",CallExpr(Id("func"),List(Id("u"),Id("v"))),IntLiteral(4)),BinaryOp("+",IntLiteral(3),IntLiteral(4))))))))
     assert(checkAst(input,expected,228))
+  }
+
+  test("a simple empty main int type with parameter list 229") {
+    val input = "int[] test() {}"
+    val expected = Program(List(FuncDecl(Id("a"),List(VarDecl(Id("a"),IntType)),IntType,Block(List(VarDecl(Id("a"),IntType)),List(BinaryOp("=",BinaryOp("+",CallExpr(Id("func"),List(Id("u"),Id("v"))),IntLiteral(4)),BinaryOp("+",IntLiteral(3),IntLiteral(4))))))))
+    assert(checkAst(input,expected,229))
   }
 
 

@@ -45,11 +45,7 @@ one_decl: var_decl | func_decl;
 
 //variable declare
 var_decl: primitivetype variable (COMMA variable)* SEMI;
-//decl_type1: primitivetype variable (COMMA variable)* SEMI;
-//decl_type2: primitivetype list_variable SEMI;
-//list_variable: variable | variable COMMA list_variable;
-//list_variable: variable (COMMA variable)*;
-variable: IDENTIFIERS (LSB expr RSB)?;
+variable: IDENTIFIERS (LSB INTLIT RSB)?;
 
 //type
 type: primitivetype | VOID | array_type | array_pointer_type;
@@ -58,7 +54,7 @@ type: primitivetype | VOID | array_type | array_pointer_type;
 func_decl: function_type IDENTIFIERS LB list_parameter_decl? RB block_statement;
 function_type: array_pointer_type | primitivetype | VOID;
 list_parameter_decl: parameter_decl (COMMA parameter_decl)*;
-parameter_decl: primitivetype IDENTIFIERS (LSB expr RSB)?;
+parameter_decl: primitivetype IDENTIFIERS (LSB RSB)?;
 
 
 array_type: primitivetype LSB INTLIT RSB;

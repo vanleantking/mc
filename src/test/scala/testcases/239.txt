@@ -1,1 +1,0 @@
-int a() {v=b();if(v==true) g=g+2; else g=g-3;}

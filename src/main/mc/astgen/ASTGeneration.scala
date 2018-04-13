@@ -32,7 +32,7 @@ class ASTGeneration extends MCBaseVisitor[Any] {
     var vtype = ctx.primitivetype.accept(this).asInstanceOf[Type]
     flatten(ctx.variable.asScala.toList.zipWithIndex.map{case (s,i)=> {
       if(ctx.variable(i).getChildCount > 1)
-        vtype = ArrayType(ctx.variable(i).expr.accept(this).asInstanceOf[IntLiteral],ctx.primitivetype().accept(this).asInstanceOf[Type])
+        vtype = ArrayType(IntLiteral(ctx.variable(i).INTLIT().getText.toInt),ctx.primitivetype().accept(this).asInstanceOf[Type])
       VarDecl(Id(ctx.variable(i).IDENTIFIERS().getText.toString),vtype)
     }})
   }
@@ -55,7 +55,7 @@ class ASTGeneration extends MCBaseVisitor[Any] {
 
   override def visitParameter_decl(ctx: Parameter_declContext) =
     if (ctx.LSB != null) {
-      VarDecl(Id(ctx.IDENTIFIERS().getText.toString), ArrayType(ctx.expr.accept(this).asInstanceOf[IntLiteral],ctx.primitivetype().accept(this).asInstanceOf[Type]))
+      VarDecl(Id(ctx.IDENTIFIERS().getText.toString), ArrayPointerType(ctx.primitivetype().accept(this).asInstanceOf[Type]))
     } else {
       VarDecl(Id(ctx.IDENTIFIERS().getText.toString), ctx.primitivetype().accept(this).asInstanceOf[Type])
     }
@@ -89,7 +89,7 @@ class ASTGeneration extends MCBaseVisitor[Any] {
     if (ctx.var_decl() != null) {
       decl = ctx.var_decl.asScala.toList.map(s=>visitVar_decl(s)).asInstanceOf[List[Decl]]
     }
-    Block(decl, stmt)
+    Block(flatten(decl).asInstanceOf[List[Decl]], flatten(stmt).asInstanceOf[List[Stmt]])
   }
 
   override def visitStatement(ctx: StatementContext) = {

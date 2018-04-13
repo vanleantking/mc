@@ -1,2 +1,0 @@
-void func () {
-         do {{return r;}} while(1);}

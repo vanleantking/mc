@@ -1,1 +1,0 @@
-do a=b+c; c=g-v; while(1);

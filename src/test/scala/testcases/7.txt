@@ -1,2 +1,0 @@
-/* this is block comment */
-      int abc()

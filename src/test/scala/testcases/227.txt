@@ -1,1 +1,0 @@
-int a() { function(u,v) + 4 = f(t,u) + 4;}

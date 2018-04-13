@@ -1,1 +1,0 @@
-if(true==false) a=b+c; else if(3==3) c=g-v; else c=g+v;
