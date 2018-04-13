@@ -99,7 +99,7 @@ class ASTGeneration extends MCBaseVisitor[Any] {
   override def visitReturn_statement(ctx: Return_statementContext) =
     if (ctx.expr() != null)
       Return(Some(ctx.expr().accept(this).asInstanceOf[Expr]))
-    else Return
+    else Return(None)
 
   override def visitContinue_statement(ctx: Continue_statementContext) =
     Continue
