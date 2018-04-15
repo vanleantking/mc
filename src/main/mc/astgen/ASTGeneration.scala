@@ -31,9 +31,9 @@ class ASTGeneration extends MCBaseVisitor[Any] {
   override def visitVar_decl(ctx: Var_declContext) = {
     var vtype = ctx.primitivetype.accept(this).asInstanceOf[Type]
     flatten(ctx.variable.asScala.toList.zipWithIndex.map{case (s,i)=> {
-      if(ctx.variable(i).getChildCount > 1)
-        vtype = ArrayType(IntLiteral(ctx.variable(i).INTLIT().getText.toInt),ctx.primitivetype().accept(this).asInstanceOf[Type])
-      VarDecl(Id(ctx.variable(i).IDENTIFIERS().getText.toString),vtype)
+      if(ctx.variable(i).LSB() != null)
+        VarDecl(Id(ctx.variable(i).IDENTIFIERS().getText.toString),ArrayType(IntLiteral(ctx.variable(i).INTLIT().getText.toInt),ctx.primitivetype().accept(this).asInstanceOf[Type]))
+      else VarDecl(Id(ctx.variable(i).IDENTIFIERS().getText.toString),ctx.primitivetype.accept(this).asInstanceOf[Type])
     }})
   }
 
@@ -195,7 +195,6 @@ class ASTGeneration extends MCBaseVisitor[Any] {
     if (ctx.getChildCount() == 1) {
       ctx.term9.accept(this).asInstanceOf[Expr]
     } else {
-//      UnaryOp(ctx.getChild(1).toString(), ctx.term9.accept(this).asInstanceOf[Expr])
       ArrayCell(ctx.term9().accept(this).asInstanceOf[Expr],ctx.expr().accept(this).asInstanceOf[Expr])
     }
 
