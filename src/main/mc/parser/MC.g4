@@ -120,7 +120,7 @@ BOOLEAN_LITERAL: 'true' | 'false';
 //string literal
 //STRINGLIT: '\"' STRINGELM* '\"';
 //STRINGLIT:  '\"' StringElement* '\"';
-STRINGLIT: '"' ( '\\' [btnfr"'\\] | ~[\r\n\\"] )* '"' ;
+STRINGLIT: '"' ( '\\' [btnfr"'\\] | ~[\r\n\\"] )* '"' {setText(getText().substring(1, getText().length() - 1));};
 primitivetype: INT | FLOAT | BOOLEAN | STRING;
 
 
