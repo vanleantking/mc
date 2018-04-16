@@ -1,0 +1,1 @@
+Program(List(VarDecl(Id(a),ArrayType(IntLiteral(4),StringType)),VarDecl(Id(a),StringType)))

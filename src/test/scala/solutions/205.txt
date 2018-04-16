@@ -1,0 +1,1 @@
+Program(List(VarDecl(Id(f),StringType),VarDecl(Id(b),IntType)))
