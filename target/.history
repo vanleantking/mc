@@ -29,3 +29,10 @@ compile
 test
 compile
 test
+compile
+test
+compile
+test
+exit
+test
+^Z

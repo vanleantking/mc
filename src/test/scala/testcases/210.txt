@@ -1,0 +1,1 @@
+boolean a,f, b[3];
