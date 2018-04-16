@@ -1,3 +1,0 @@
-void a(){
-        if(false) d = d+5; else d=d-5;
-        }

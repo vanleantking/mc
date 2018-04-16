@@ -1,4 +1,4 @@
-// Generated from E:/cao hoc/nlnnlt/NL2018/ASS2/initial2/src/main/mc/parser\MC.g4 by ANTLR 4.7
+// Generated from E:/workspace scala/ASS2/mc/src/main/mc/parser\MC.g4 by ANTLR 4.7
 package mc.parser;
 
 	package mc.parser;

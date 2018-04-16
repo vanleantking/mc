@@ -7,7 +7,7 @@ compile
 test
 compile
 test
-tét
+tï¿½t
 test
 compile
 test
@@ -24,6 +24,16 @@ test
 compile
 test
 run main
+test
+compile
+test
+compile
+test
+compile
+test
+compile
+test
+compile
 test
 compile
 test
