@@ -1,1 +1,0 @@
-int a(int a[]) { int a;if(true==true) v=v+4;}

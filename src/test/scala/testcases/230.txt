@@ -1,1 +1,0 @@
-int[] a(int a[], boolean b[]) { int a; function[f(4,y) + 5] + 4 = (f(t,u) + 4)*6;}

@@ -1,1 +1,0 @@
-string[] a(int a, int b[]) { int a; return f(3)+4;}
