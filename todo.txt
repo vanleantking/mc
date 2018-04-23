@@ -1,2 +1,9 @@
-- fix array declare index must be intliteral, not expression in mc.g4
-- check test case in parameter list is failed
+III. Type check
+- Redeclare global variables
+- Duplicate parameter in declare function
+- Duplicate declare variables in function
+- Devide by zero
+- Check type of left hand side of expression (left hand side is a array cell or id)
+- check primitive type of operand in operator in (int plus int, not int plus string...)
+- Undeclare before used in statement
+- Check type of function return
