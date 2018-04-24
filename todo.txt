@@ -7,3 +7,9 @@ III. Type check
 - check primitive type of operand in operator in (int plus int, not int plus string...)
 - Undeclare before used in statement
 - Check type of function return
+
+
+HD:
+- Duyet cay AST 2 lan
++ Lan 1: Check 2 loi Undeclare / Redeclare => Name check. Khi duyet, tao 1 SymbolList (phan 1 la lan duyet dau tien de check name (redeclare/undeclare name function, variable, parameter) => tao ra dc Symbollist)
++ Lan 2: Check loi lien quan den type checking (type mismatch...), voi input la SymbolList tu lan duyet 1

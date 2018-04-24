@@ -4,7 +4,7 @@ import javax.rmi.CORBA.Util
 import mc.utils._
 
 
-object Excercise extends BaseVisitor {
+object Excercise extends BaseVisitor with Utils {
 
   //question 1
   def my_filter(lst: Program) : List[Decl] = lst.decl.filter(p=>p.isInstanceOf[VarDecl])
@@ -27,8 +27,16 @@ object Excercise extends BaseVisitor {
 
 //  override def visitFuncDecl(ast: FuncDecl, c:Any) =
 //    checkDuplicate(ast.param)
-//
+
 //  def checkDuplicateLocal(ast: Program) : Boolean =
 //    ast.decl.filter(p=>p.isInstanceOf[FuncDecl]).for
+
+//  def question2(lst:List[VarDecl]):Boolean =    {
+//    if(lst.size == 1) false
+//    else if (lookup(lst.head.variable.name,lst.tail,(s:VarDecl)=>s.variable.name != None))
+//      true
+//    else question2(lst.tail)
+//  }
+
 
 }
