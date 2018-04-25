@@ -30,19 +30,39 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
 //        visit(ast,null)
     }
 
-    override def visitProgram(ast: Program, c: Any): Any = ast.decl.filter(p => p.isInstanceOf[Decl]).foldLeft(List[Decl]())((x,y)=>visit(y,x).asInstanceOf[List[Decl]])
+    override def visitProgram(ast: Program, c: Any): Any =
+        ast.decl.filter(p => p.isInstanceOf[Decl]).foldLeft(List[Decl]())((x,y)=>visit(y,x).asInstanceOf[List[Decl]])
 
     override def visitVarDecl(ast: VarDecl, c: Any): Any = {
         var vardecl = c.asInstanceOf[List[Decl]].filter(p=>p.isInstanceOf[VarDecl]).toList
-        if (vardecl.exists(x => x.asInstanceOf[VarDecl].variable.name.toString == ast.variable.name.toString)) throw Redeclared(Variable, ast.variable.name.toString)
+        if (vardecl.exists(x => x.asInstanceOf[VarDecl].variable.name.toString == ast.variable.name.toString))
+            throw Redeclared(Variable, ast.variable.name.toString)
         else ast.asInstanceOf[Decl] :: c.asInstanceOf[List[Decl]]
     }
 
     override def visitFuncDecl(ast: FuncDecl, c: Any): Any = {
-        var funcdecl = c.asInstanceOf[List[Decl]].filter(p=>p.isInstanceOf[FuncDecl]).toList
-        println("before", funcdecl, ast.name, c)
-        if (funcdecl.exists(x => x.asInstanceOf[FuncDecl].name.toString == ast.name.toString)) throw Redeclared(Function, ast.name.toString)
-        else ast.asInstanceOf[Decl] :: c.asInstanceOf[List[Decl]]
+        var funcdecl = c.asInstanceOf[List[Decl]].filter(p=>p.isInstanceOf[FuncDecl])
+        if (funcdecl.exists(x => x.asInstanceOf[FuncDecl].name.toString == ast.name.toString))
+            throw Redeclared(Function, ast.name.toString)
+
+        var params = List[VarDecl]()
+        if(ast.param.size > 0)
+            params = ast.param.foldLeft(List[VarDecl]())((x,y) => visit(y,x).asInstanceOf[List[VarDecl]])
+        var body = visit(ast.body, params).asInstanceOf[List[Decl]]
+        println("function", body)
+        val func = List(params, body)
+        println("function ending", ast.asInstanceOf[Decl]::c.asInstanceOf[List[Decl]])
+
+        println("list c", c.asInstanceOf[List[Decl]])
+        ast.asInstanceOf[Decl]::c.asInstanceOf[List[Decl]]
+
+    }
+
+    override def visitBlock(ast: Block, c: Any): Any = {
+        val params = c.asInstanceOf[List[VarDecl]].filter(p=>p.isInstanceOf[VarDecl])
+        println("block", params)
+        val body = ast.decl.filter(p=>p.isInstanceOf[VarDecl]).foldLeft(List[VarDecl]())((x,y)=>visit(y,params).asInstanceOf[List[VarDecl]])
+        body
     }
 
     
