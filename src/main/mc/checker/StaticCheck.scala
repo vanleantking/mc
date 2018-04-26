@@ -18,16 +18,15 @@ import scala.collection.JavaConverters._
 
 
 class StaticChecker(ast:AST) extends BaseVisitor with Utils {
-
     
     def check() = {
         try {
-            visit(ast,null)
+            val program = visit(ast,null)
+            println("program", program)
         } catch {
             case Redeclared(k,n) => throw new Redeclared(k,n)
             case Undeclared(k,n) => throw new Undeclared(k,n)
         }
-//        visit(ast,null)
     }
 
     override def visitProgram(ast: Program, c: Any): Any =
@@ -49,18 +48,13 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
         if(ast.param.size > 0)
             params = ast.param.foldLeft(List[VarDecl]())((x,y) => visit(y,x).asInstanceOf[List[VarDecl]])
         var body = visit(ast.body, params).asInstanceOf[List[Decl]]
-        println("function", body)
         val func = List(params, body)
-        println("function ending", ast.asInstanceOf[Decl]::c.asInstanceOf[List[Decl]])
-
-        println("list c", c.asInstanceOf[List[Decl]])
         ast.asInstanceOf[Decl]::c.asInstanceOf[List[Decl]]
 
     }
 
     override def visitBlock(ast: Block, c: Any): Any = {
         val params = c.asInstanceOf[List[VarDecl]].filter(p=>p.isInstanceOf[VarDecl])
-        println("block", params)
         val body = ast.decl.filter(p=>p.isInstanceOf[VarDecl]).foldLeft(List[VarDecl]())((x,y)=>visit(y,params).asInstanceOf[List[VarDecl]])
         body
     }
