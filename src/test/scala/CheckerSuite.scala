@@ -84,11 +84,11 @@ class CheckerSuite extends FunSuite with TestChecker {
 //    assert(checkCkr(input,expected,413))
 //  }
 //
-//  test("Redeclare variable 414") {
-//    val input = "int a, b; void r(int a, int b){int a;} void v(int a){}"
-//    val expected = "Undeclared Function: writeIntLn"
-//    assert(checkCkr(input,expected,414))
-//  }
+  test("Redeclare variable 414") {
+    val input = "int a, b; void r(int a, int b){int a;} void v(int a){}"
+    val expected = "Undeclared Function: writeIntLn"
+    assert(checkCkr(input,expected,414))
+  }
 
   test("Redeclare variable 415") {
     val input = "int a, b; void r(int a, int b){float c;} int b;"
