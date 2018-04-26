@@ -103,8 +103,8 @@ class CheckerSuite extends FunSuite with TestChecker {
   }
 
   test("Redeclare variable 417") {
-    val input = "int a, b; void r(int a, int b){float c;} int d;"
-    val expected = "Redeclared Variable: b"
+    val input = "int a, b; void r(int a, int b){float c; c=a+b; c[2] = a/b+b;} int d;"
+    val expected = ""
     assert(checkCkr(input,expected,417))
   }
 //  test("Type Mismatch In Expression: getInt") {

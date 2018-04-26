@@ -48,7 +48,7 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
         if(ast.param.size > 0)
             params = ast.param.foldLeft(List[VarDecl]())((x,y) => visitParam(y,x).asInstanceOf[List[VarDecl]])
         var body = visit(ast.body, params).asInstanceOf[List[Decl]]
-        val func = List(params, body)
+//        val func = List(params, body)
         ast.asInstanceOf[Decl]::c.asInstanceOf[List[Decl]]
 
     }
