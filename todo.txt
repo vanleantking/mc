@@ -13,3 +13,84 @@ HD:
 - Duyet cay AST 2 lan
 + Lan 1: Check 2 loi Undeclare / Redeclare => Name check. Khi duyet, tao 1 SymbolList (phan 1 la lan duyet dau tien de check name (redeclare/undeclare name function, variable, parameter) => tao ra dc Symbollist)
 + Lan 2: Check loi lien quan den type checking (type mismatch...), voi input la SymbolList tu lan duyet 1
+
+
+
+(program,
+
+List(
+
+    FuncDecl(
+        Id(main),
+        List(),
+        VoidType,
+        Block(
+            List(VarDecl(Id(a),IntType)),
+            List()
+            )
+        ),
+
+    VarDecl(Id(c),IntType),
+
+    FuncDecl(
+        Id(r),
+        List(VarDecl(Id(a),IntType),VarDecl(Id(b),IntType)),
+        VoidType,
+        Block(
+            List(VarDecl(Id(c),FloatType)),
+            List()
+            )
+        ),
+
+    VarDecl(Id(b),IntType),
+    VarDecl(Id(a),IntType)))
+
+
+
+
+
+
+
+(program,
+
+
+List(
+    VarDecl(Id(d),IntType),
+
+    FuncDecl(
+        Id(r),
+        List(VarDecl(Id(a),IntType),VarDecl(Id(b),IntType)),
+        VoidType,
+        Block(
+            List(VarDecl(Id(c),FloatType)),
+            List(
+                BinaryOp(=,Id(c),BinaryOp(+,Id(a),Id(b))),
+                BinaryOp(=,ArrayCell(Id(c),IntLiteral(2)),BinaryOp(+,BinaryOp(/,Id(a),Id(b)),Id(b)))
+            )
+        )
+    ),
+
+
+    VarDecl(Id(b),IntType),
+    VarDecl(Id(a),IntType)))
+
+
+- undeclare identifiers, function;
+- Type Mismatch In Statement(if, for, while, return)
+- Type Mismatch In Expression(assignment (lhs except void, array pointer type, array type; rhs same type with lhs or can be coerce to lhs(interger can be coerce to float) ); function call; binary, unnary expression;
+For an array subcripting E1[E2], E1 must be in array type or array pointer type and E2 must be integer.)
+type mismatch expression,
+
+int x,y;
+int a(int c, int r) {
+    int d,e,f,y;
+    b(d,f,r(y,x));
+}
+
+int b(int x, int y, int z) {
+    int a,b,c;
+}
+
+void main(int a, int b){
+    a(x,y)
+}

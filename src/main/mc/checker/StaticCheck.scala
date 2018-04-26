@@ -68,3 +68,7 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
 
     
 }
+
+//class TypeChecking(ast: AST) extends BaseVisitor with Utils {
+//    override def visitProgram(ast: Program, c: Any): Any = ast.decl.foldLeft(List[Decl]())((x,y)=>visit(y,x).asInstanceOf[List[Decl]])
+//}

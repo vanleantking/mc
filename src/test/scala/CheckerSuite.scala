@@ -107,6 +107,12 @@ class CheckerSuite extends FunSuite with TestChecker {
     val expected = ""
     assert(checkCkr(input,expected,417))
   }
+
+  test("Redeclare variable 418") {
+    val input = "int a, b; void a(){int c;}"
+    val expected = ""
+    assert(checkCkr(input,expected,418))
+  }
 //  test("Type Mismatch In Expression: getInt") {
 //    val input = "void main () {} void main () {}"
 //    val expected = "Type Mismatch In Expression: "+CallExpr(Id("getInt"),List(IntLiteral(3))).toString
