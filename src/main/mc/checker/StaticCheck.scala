@@ -52,6 +52,9 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
         var params = List[VarDecl]()
         if(ast.param.size > 0)
             params = ast.param.foldLeft(List[VarDecl]())((x,y) => visitParam(y,x).asInstanceOf[List[VarDecl]])
+
+        if (params.exists(x=>x.variable.name == ast.name.name.toString))
+            throw Redeclared(Parameter, ast.name.name.toString)
         var body = visit(ast.body, params).asInstanceOf[List[Decl]]
         ast.asInstanceOf[Decl]::c.asInstanceOf[List[Decl]]
 
