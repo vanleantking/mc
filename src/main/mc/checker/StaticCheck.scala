@@ -33,22 +33,26 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
         ast.decl.filter(p => p.isInstanceOf[Decl]).foldLeft(List[Decl]())((x,y)=>visit(y,x).asInstanceOf[List[Decl]])
 
     override def visitVarDecl(ast: VarDecl, c: Any): Any = {
-        var vardecl = c.asInstanceOf[List[Decl]].filter(p=>p.isInstanceOf[VarDecl]).toList
-        if (vardecl.exists(x => x.asInstanceOf[VarDecl].variable.name.toString == ast.variable.name.toString))
+        var vardecl = c.asInstanceOf[List[Decl]]//.filter(p=>p.isInstanceOf[VarDecl]).toList
+        if (vardecl.filter(p=>p.isInstanceOf[VarDecl]).exists(x => x.asInstanceOf[VarDecl].variable.name.toString == ast.variable.name.toString))
             throw Redeclared(Variable, ast.variable.name.toString)
-        else ast.asInstanceOf[Decl] :: c.asInstanceOf[List[Decl]]
+
+        if (vardecl.filter(p=>p.isInstanceOf[FuncDecl]).exists(x => x.asInstanceOf[FuncDecl].name.name.toString == ast.variable.name.toString))
+            throw Redeclared(Variable, ast.variable.name.toString)
+        ast.asInstanceOf[Decl] :: c.asInstanceOf[List[Decl]]
     }
 
     override def visitFuncDecl(ast: FuncDecl, c: Any): Any = {
-        var funcdecl = c.asInstanceOf[List[Decl]].filter(p=>p.isInstanceOf[FuncDecl])
-        if (funcdecl.exists(x => x.asInstanceOf[FuncDecl].name.toString == ast.name.toString))
-            throw Redeclared(Function, ast.name.toString)
+        var funcdecl = c.asInstanceOf[List[Decl]]//.filter(p=>p.isInstanceOf[FuncDecl])
+        if (funcdecl.filter(p=>p.isInstanceOf[FuncDecl]).exists(x => x.asInstanceOf[FuncDecl].name.toString == ast.name.toString))
+            throw Redeclared(Function, ast.name.name.toString)
 
+        if (funcdecl.filter(p=>p.isInstanceOf[VarDecl]).exists(x => x.asInstanceOf[VarDecl].variable.name.toString == ast.name.name.toString))
+            throw Redeclared(Function, ast.name.name.toString)
         var params = List[VarDecl]()
         if(ast.param.size > 0)
             params = ast.param.foldLeft(List[VarDecl]())((x,y) => visitParam(y,x).asInstanceOf[List[VarDecl]])
         var body = visit(ast.body, params).asInstanceOf[List[Decl]]
-//        val func = List(params, body)
         ast.asInstanceOf[Decl]::c.asInstanceOf[List[Decl]]
 
     }
