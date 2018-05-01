@@ -120,10 +120,16 @@ class CheckerSuite extends FunSuite with TestChecker {
 //    assert(checkCkr(input,expected,419))
 //  }
 
-  test("Redeclare variable 420") {
-    val input = "void a(int a){int c;} int d, b; "
+//  test("Redeclare variable 420") {
+//    val input = "void a(int v){int c;} int d, b; "
+//    val expected = "Redeclared Variable: a"
+//    assert(checkCkr(input,expected,420))
+//  }
+
+  test("Redeclare variable 421") {
+    val input = "void a(int v){int c;c=a+b;} int d, b; "
     val expected = "Redeclared Variable: a"
-    assert(checkCkr(input,expected,420))
+    assert(checkCkr(input,expected,421))
   }
 //  test("Type Mismatch In Expression: getInt") {
 //    val input = "void main () {} void main () {}"

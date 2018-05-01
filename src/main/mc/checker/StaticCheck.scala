@@ -23,6 +23,8 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
         try {
             val program = visit(ast,null)
             println("program", program)
+            val tc = new TypeChecking(ast)
+            tc.visit(ast, program)
         } catch {
             case Redeclared(k,n) => throw new Redeclared(k,n)
             case Undeclared(k,n) => throw new Undeclared(k,n)
@@ -72,10 +74,36 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
         val body = ast.decl.filter(p=>p.isInstanceOf[VarDecl]).foldLeft(List[VarDecl]())((x,y)=>visit(y,params).asInstanceOf[List[VarDecl]])
         body
     }
-
     
 }
 
-//class TypeChecking(ast: AST) extends BaseVisitor with Utils {
-//    override def visitProgram(ast: Program, c: Any): Any = ast.decl.foldLeft(List[Decl]())((x,y)=>visit(y,x).asInstanceOf[List[Decl]])
-//}
+class TypeChecking(ast: AST) extends BaseVisitor with Utils {
+    override def visitProgram(ast: Program, c: Any): Any ={
+        val env = c.asInstanceOf[List[Decl]]
+        println("something", c)
+        ast.decl.filter(!_.isInstanceOf[Decl]).foldLeft(env)((x,y)=>visit(y,x).asInstanceOf[List[Decl]])
+    }
+
+
+    override def visitIntType(ast: IntType.type, c: Any): Any = IntType
+
+    override def visitFloatType(ast: FloatType.type, c: Any): Any = FloatType
+
+    override def visitBoolType(ast: BoolType.type, c: Any): Any = BoolType
+
+    override def visitStringType(ast: StringType.type, c: Any): Any = StringType
+
+    override def visitVoidType(ast: VoidType.type, c: Any): Any = VoidType
+
+    override def visitArrayType(ast: ArrayType, c: Any): Any = ArrayType
+
+    override def visitBinaryOp(ast: BinaryOp, c: Any): Any = {
+        val lhs = visit(ast.left,c)
+        val rhs = visit(ast.right, c)
+    }
+
+    override def visitFuncDecl(ast: FuncDecl, c: Any): Any = {
+        
+    }
+
+}
