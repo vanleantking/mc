@@ -22,7 +22,6 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
     def check() = {
         try {
             val program = visit(ast,null)
-            println("program", program)
             val tc = new TypeChecking(ast)
             tc.visit(ast, program)
         } catch {
@@ -81,7 +80,7 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
     override def visitProgram(ast: Program, c: Any): Any ={
         val env = c.asInstanceOf[List[Decl]]
         println("something", c)
-        ast.decl.filter(!_.isInstanceOf[Decl]).foldLeft(env)((x,y)=>visit(y,x).asInstanceOf[List[Decl]])
+        ast.decl.map(visit(_,c))
     }
 
 
@@ -98,12 +97,15 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
     override def visitArrayType(ast: ArrayType, c: Any): Any = ArrayType
 
     override def visitBinaryOp(ast: BinaryOp, c: Any): Any = {
+        println("zzzzz")
         val lhs = visit(ast.left,c)
         val rhs = visit(ast.right, c)
     }
 
     override def visitFuncDecl(ast: FuncDecl, c: Any): Any = {
-        
+        val params = ast.param
+        val vars = ast.body.asInstanceOf[Block].decl
+        println(params, vars)
     }
 
 }

@@ -119,7 +119,7 @@ class CheckerSuite extends FunSuite with TestChecker {
 //    val expected = "Redeclared Variable: a"
 //    assert(checkCkr(input,expected,419))
 //  }
-
+//
 //  test("Redeclare variable 420") {
 //    val input = "void a(int v){int c;} int d, b; "
 //    val expected = "Redeclared Variable: a"
