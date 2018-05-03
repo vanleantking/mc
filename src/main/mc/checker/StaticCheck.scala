@@ -83,6 +83,47 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
         ast.decl.map(visit(_,c))
     }
 
+    override def visitFuncDecl(ast: FuncDecl, c: Any): Any = {
+        val params = ast.param.asInstanceOf[List[Decl]]
+        val vars = ast.body.asInstanceOf[Block].decl.asInstanceOf[List[Decl]]
+        val scope = vars:::params:::c.asInstanceOf[List[Decl]]
+        visit(ast.body, scope)
+    }
+
+    override def visitBlock(ast: Block, c: Any): Any = {
+        println("scope", c)
+        ast.stmt.map(visit(_,c))
+    }
+
+    override def visitBinaryOp(ast: BinaryOp, c: Any): Any = {
+        if (ast.op.toString == "=="){
+            if (ast.left.isInstanceOf[ArrayType] || ast.left.isInstanceOf[ArrayPointerType]) {
+                throw TypeMismatchInExpression(ast)
+            }
+        }
+        val lhs = visit(ast.left,c)
+        val rhs = visit(ast.right, c)
+    }
+
+    override def visitId(ast: Id, c: Any): Any = {
+        val vars = c.asInstanceOf[List[Decl]].filter(p=>p.isInstanceOf[VarDecl])
+        if(!vars.asInstanceOf[List[Decl]].exists(x => x.asInstanceOf[VarDecl].variable.name.toString == ast.name.toString))
+            throw Undeclared(Identifier,ast.name.toString)
+    }
+
+    override def visitCallExpr(ast: CallExpr, c: Any): Any = {
+        val funcs = c.asInstanceOf[List[Decl]].filter(p=>p.isInstanceOf[FuncDecl])
+        if(!funcs.asInstanceOf[List[Decl]].exists(x => x.asInstanceOf[FuncDecl].name.name == ast.method.name.toString))
+            throw Undeclared(Function,ast.method.name.toString)
+    }
+
+    override def visitArrayCell(ast: ArrayCell, c: Any): Any = {
+        if (ast.arr.isInstanceOf[Id]) {
+            visit(ast.arr.asInstanceOf[Id], c.asInstanceOf[List[Decl]].filter(p=>p.isInstanceOf[VarDecl]))
+        } else if (ast.arr.isInstanceOf[Expr]) {
+            visit(ast.arr.asInstanceOf[CallExpr], c.asInstanceOf[List[Decl]].filter(p=>p.isInstanceOf[FuncDecl]))
+        }
+    }
 
     override def visitIntType(ast: IntType.type, c: Any): Any = IntType
 
@@ -95,17 +136,5 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
     override def visitVoidType(ast: VoidType.type, c: Any): Any = VoidType
 
     override def visitArrayType(ast: ArrayType, c: Any): Any = ArrayType
-
-    override def visitBinaryOp(ast: BinaryOp, c: Any): Any = {
-        println("zzzzz")
-        val lhs = visit(ast.left,c)
-        val rhs = visit(ast.right, c)
-    }
-
-    override def visitFuncDecl(ast: FuncDecl, c: Any): Any = {
-        val params = ast.param
-        val vars = ast.body.asInstanceOf[Block].decl
-        println(params, vars)
-    }
 
 }
