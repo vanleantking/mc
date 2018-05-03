@@ -118,11 +118,7 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
     }
 
     override def visitArrayCell(ast: ArrayCell, c: Any): Any = {
-        if (ast.arr.isInstanceOf[Id]) {
-            visit(ast.arr.asInstanceOf[Id], c.asInstanceOf[List[Decl]].filter(p=>p.isInstanceOf[VarDecl]))
-        } else if (ast.arr.isInstanceOf[Expr]) {
-            visit(ast.arr.asInstanceOf[CallExpr], c.asInstanceOf[List[Decl]].filter(p=>p.isInstanceOf[FuncDecl]))
-        }
+        visit(ast.arr, c)
     }
 
     override def visitIntType(ast: IntType.type, c: Any): Any = IntType

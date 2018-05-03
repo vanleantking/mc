@@ -126,30 +126,30 @@ class CheckerSuite extends FunSuite with TestChecker {
 //    assert(checkCkr(input,expected,420))
 //  }
 
-//  test("Redeclare variable 421") {
-//    val input = "void a(int v){int c;e=a+b;} int d, b; "
-//    val expected = "Redeclared Variable: a"
-//    assert(checkCkr(input, expected, 421))
-//  }
-//
-//
-//  test("Redeclare variable 422") {
-//    val input = "void a(int v){int c;func()=a+b;} int d, b; "
-//    val expected = "Redeclared Variable: a"
-//    assert(checkCkr(input,expected,422))
-//  }
-//
-//  test("Redeclare variable 423") {
-//    val input = "void a(int v){int c;e[3]=a+b;} int d, b; "
-//    val expected = "Redeclared Variable: a"
-//    assert(checkCkr(input,expected,423))
-//  }
-//
-//  test("Redeclare variable 424") {
-//    val input = "void a(int v){int c;e(3,c)[3]=a+b;} int d, b; "
-//    val expected = "Redeclared Variable: a"
-//    assert(checkCkr(input, expected, 424))
-//  }
+  test("Redeclare variable 421") {
+    val input = "void a(int v){int c;e=a+b;} int d, b; "
+    val expected = "Redeclared Variable: a"
+    assert(checkCkr(input, expected, 421))
+  }
+
+
+  test("Redeclare variable 422") {
+    val input = "void a(int v){int c;func()=a+b;} int d, b; "
+    val expected = "Redeclared Variable: a"
+    assert(checkCkr(input,expected,422))
+  }
+
+  test("Redeclare variable 423") {
+    val input = "void a(int v){int c;e[3]=a+b;} int d, b; "
+    val expected = "Redeclared Variable: a"
+    assert(checkCkr(input,expected,423))
+  }
+
+  test("Redeclare variable 424") {
+    val input = "void a(int v){int c;e(3,c)[3]=a+b;} int d, b; "
+    val expected = "Redeclared Variable: a"
+    assert(checkCkr(input, expected, 424))
+  }
 
   test("Redeclare variable 425") {
     val input = "void a(int v){int c;c[3]=d+b;} int d, b; "
