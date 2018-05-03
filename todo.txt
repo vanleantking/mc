@@ -94,3 +94,9 @@ int b(int x, int y, int z) {
 void main(int a, int b){
     a(x,y)
 }
+
+
+
+
+------- visit tu nhien, tuan tu tung node (context), khong ep kieu (isInstanceOf[something]) de visit
+=> tung ngu canh se su dung visit(context, env) cho tung node, thay vi visit[something](context, env) (trong basevisitor)
