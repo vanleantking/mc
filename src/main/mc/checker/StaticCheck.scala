@@ -93,11 +93,8 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
     override def visitBlock(ast: Block, c: Any): Any = {
         val blscope = ast.decl.asInstanceOf[List[Any]]
         val scope = blscope:::c.asInstanceOf[List[Any]]
-        println("scope", c)
         ast.stmt.foldLeft(scope)((x,y) => {
-            println("block", y)
                 if(y.isInstanceOf[Expr]){
-                    println("block in check", y)
                     visit(y,scope)
                     scope.asInstanceOf[List[Any]]
                 }
@@ -116,12 +113,9 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
     }
 
     override def visitBinaryOp(ast: BinaryOp, c: Any): Any = {
-        println("enter visit binary", ast)
         val lt = visit(ast.left, c).asInstanceOf[Type]
         val rt = visit(ast.right, c).asInstanceOf[Type]
-        println(ast.left, ast.right, lt, rt, ast.left)
         if (ast.op == "+" || ast.op == "-" || ast.op == "*" || ast.op == "/") {
-            println("type", lt, rt, ast, ast.left)
             if (lt == IntType) {
                 if (rt == IntType) IntType
                 else if (rt == FloatType) FloatType
@@ -200,7 +194,6 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
         val vars = c.asInstanceOf[List[Decl]].filter(p=>p.isInstanceOf[VarDecl])
         // check undeclare for identifiers
         val id = lookupId(ast.name.toString, vars.asInstanceOf[List[VarDecl]])
-        println("visit id", id)
         if (id == null)
             throw Undeclared(Identifier,ast.name.toString)
         id.varType
@@ -219,22 +212,23 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
         val func = lookupFunc(ast.method.name, funcs.asInstanceOf[List[FuncDecl]])
         if (func != null && func.param.size != ast.params.size) throw TypeMismatchInExpression(ast)
 
-        // check params match type in function call and function define
-        func.param.zip(ast.params).map{case (x, y) =>
-            val lhs = x.varType
-            val rhs = visit(y,c).asInstanceOf[VarDecl].varType
-            if (lhs == IntType && rhs != IntType) throw TypeMismatchInExpression(ast)
-            else if(lhs == FloatType && (rhs != FloatType || rhs != IntType)) throw TypeMismatchInExpression(ast)
-            else if(lhs == BoolType && rhs != BoolType) throw TypeMismatchInExpression(ast)
-            else if(lhs == StringType && rhs != StringType) throw TypeMismatchInExpression(ast)
-            else {
-              if (rhs.isInstanceOf[ArrayPointerType]) {
-                  if (lhs.asInstanceOf[ArrayPointerType].eleType != rhs.asInstanceOf[ArrayPointerType].eleType)
-                    throw TypeMismatchInExpression(ast)
-              }
-              else throw TypeMismatchInExpression(ast)
+        else {
+            // check params match type in function call and function define
+            func.param.zip(ast.params).map{case (x, y) =>
+
+                val lhs = x.varType
+                val rhs = visit(y,c)
+                if(lhs == IntType && rhs != IntType) throw TypeMismatchInExpression(ast)
+                if(lhs == FloatType && (rhs != FloatType || rhs != IntType)) throw TypeMismatchInExpression(ast)
+                if(lhs == BoolType && rhs != BoolType) throw TypeMismatchInExpression(ast)
+                if(lhs == StringType && rhs != StringType) throw TypeMismatchInExpression(ast)
+                if(lhs == ArrayPointerType && (rhs == ArrayType || rhs == ArrayPointerType)) {
+                    if (lhs.asInstanceOf[ArrayPointerType].eleType == rhs.asInstanceOf[ArrayPointerType].eleType)
+                        throw TypeMismatchInExpression(ast)
+                }
             }
         }
+
         func.returnType
     }
 
@@ -242,8 +236,9 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
         val arr = visit(ast.arr, c).asInstanceOf[Type]
         val idx = visit(ast.idx, c).asInstanceOf[Type]
 
-//        if (arr != ArrayType || idx != IntType) throw TypeMismatchInExpression(ast)
-        arr.asInstanceOf[ArrayType].eleType
+        if (arr.isInstanceOf[ArrayType])
+            arr.asInstanceOf[ArrayType].eleType
+        else arr.asInstanceOf[ArrayPointerType].eleType
     }
 
 
@@ -315,6 +310,14 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
     override def visitVoidType(ast: VoidType.type, c: Any): Any = VoidType
 
     override def visitArrayType(ast: ArrayType, c: Any): Any = ArrayType
+
+    override def visitIntLiteral(ast: IntLiteral, c: Any): Any = IntType
+
+    override def visitFloatLiteral(ast: FloatLiteral, c: Any): Any = FloatType
+
+    override def visitStringLiteral(ast: StringLiteral, c: Any): Any = StringType
+
+    override def visitBooleanLiteral(ast: BooleanLiteral, c: Any): Any = BoolType
 
     def lookupFunc(Id:String, lst:List[FuncDecl]):FuncDecl = {
         val varid = lookup(Id,lst,(s:FuncDecl)=>s.name.name)
