@@ -149,7 +149,7 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
             else if (lt != BoolType) throw TypeMismatchInExpression(ast)
             else throw TypeMismatchInExpression(ast)
         }
-        else {	//(ast.op == "=")
+        else {
             if (lt == IntType) {
                 if (rt == IntType) IntType
                 else throw TypeMismatchInExpression(ast)
@@ -164,14 +164,6 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
             }
             else if (lt == StringType) {
                 if (rt == StringType) StringType
-                else throw TypeMismatchInExpression(ast)
-            }
-            else if (lt.isInstanceOf[ArrayPointerType]) {
-                if (rt.isInstanceOf[ArrayPointerType]) {
-                    if (lt.asInstanceOf[ArrayPointerType].eleType == rt.asInstanceOf[ArrayPointerType].eleType)
-                        lt.asInstanceOf[ArrayPointerType]
-                    else throw TypeMismatchInExpression(ast)
-                }
                 else throw TypeMismatchInExpression(ast)
             }
             else throw TypeMismatchInExpression(ast)

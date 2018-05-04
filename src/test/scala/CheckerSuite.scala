@@ -333,6 +333,24 @@ class CheckerSuite extends FunSuite with TestChecker {
     val expected = ""
     assert(checkCkr(input, expected, 454))
   }
+
+  test("Redeclare variable 455") {
+    val input = "void a(boolean v){boolean c;int f,i; c = v||c&&!(f%i==0);} int d, b; boolean[] e(string g, int c){} "
+    val expected = ""
+    assert(checkCkr(input, expected, 455))
+  }
+
+  test("Redeclare variable 456") {
+    val input = "void a(boolean v){boolean c;int f; float i; c = v||c&&!(f%i==0);} int d, b; boolean[] e(string g, int c){} "
+    val expected = "Type Mismatch In Expression: BinaryOp(%,Id(f),Id(i))"
+    assert(checkCkr(input, expected, 456))
+  }
+
+  test("Redeclare variable 457") {
+    val input = "void a(boolean v){boolean c;int f; float i; e(\"buzz\", f) = v;} int d, b; void e(string g, int c){} "
+    val expected = "Type Mismatch In Expression: BinaryOp(=,CallExpr(Id(e),List(StringLiteral(buzz),Id(f))),Id(v))"
+    assert(checkCkr(input, expected, 457))
+  }
 //
 //  test("Redeclare variable 425") {
 //    val input = "void a(int v){int c;c[3]=d+b;} int d, b; "
