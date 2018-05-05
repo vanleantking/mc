@@ -111,20 +111,21 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
         val params = ast.param.asInstanceOf[List[Decl]]
         val vars = ast.body.asInstanceOf[Block].decl.asInstanceOf[List[Decl]]
         val scope = vars:::params:::c.asInstanceOf[List[Decl]]
+        val returnType = ast.returnType.asInstanceOf[Type]
+        val isReturn = ast.body.asInstanceOf[Block].stmt.filter(p=>p.isInstanceOf[Return]).size == 0
+        if (returnType != VoidType && isReturn == true) throw FunctionNotReturn(ast.name.name)
         visit(ast.body, scope)
+
+
     }
 
     override def visitBlock(ast: Block, c: Any): Any = {
         val blscope = ast.decl.asInstanceOf[List[Any]]
         val scope = blscope:::c.asInstanceOf[List[Any]]
-        println("visit block")
         ast.stmt.foldLeft(scope)((x,y) => {
-            println(y)
             if(y.isInstanceOf[Expr]){
                 visit(y,scope)
-                println("xxxxxx", scope)
                 scope.asInstanceOf[List[Any]]
-//                println("cccccccc")
             }
             else{
                 if(y.isInstanceOf[Block]) {
@@ -134,13 +135,11 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
                     scope.asInstanceOf[List[Any]]
 
                 } else {
-                    println("elseeeeee", y)
                     visit(y,scope)
                     scope.asInstanceOf[List[Any]]
                 }
             }.asInstanceOf[List[Any]]
         })
-        println("out block")
     }
 
     override def visitBinaryOp(ast: BinaryOp, c: Any): Any = {
@@ -273,25 +272,27 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
             case Some(t) => visit(t,c)
         }
         val thenStmt = visit(ast.thenStmt,c)
+        c
 
     }
 
-//    override def visitFor(ast: For, c: Any): Any = {
-//        val env = c.asInstanceOf[List[Any]]
-//        val tmpEnv = env(0).asInstanceOf[List[List[Decl]]]
-//        if (ast.expr1.accept(this, c).asInstanceOf[Type] != IntType) throw TypeMismatchInStatement(ast)
-//        if (ast.expr3.accept(this, c).asInstanceOf[Type] != IntType) throw TypeMismatchInStatement(ast)
-//        if (ast.expr2.accept(this, c).asInstanceOf[Type] != BoolType) throw TypeMismatchInStatement(ast)
-//        val newEnv = if (ast.loop.isInstanceOf[Block]) ast.loop.accept(this, List(List[Decl]() :: tmpEnv, env(1), true))
-//        else ast.loop.accept(this, List(env(0), env(1), true))
-//        if (newEnv.isInstanceOf[Type]) List(env(0), env(1), false)
-//        else {
-//          val loopEnv = newEnv.asInstanceOf[List[Any]]
-//          List(loopEnv(0),  loopEnv(1), false)
-//        }
-//    }
+    override def visitFor(ast: For, c: Any): Any = {
+        if (ast.expr1.accept(this, c).asInstanceOf[Type] != IntType) throw TypeMismatchInStatement(ast)
+        if (ast.expr3.accept(this, c).asInstanceOf[Type] != IntType) throw TypeMismatchInStatement(ast)
+        if (ast.expr2.accept(this, c).asInstanceOf[Type] != BoolType) throw TypeMismatchInStatement(ast)
+        visit(ast.loop, c)
+        c
+    }
+
+    override def visitDowhile(ast: Dowhile, c: Any): Any = {
+        val exp = visit(ast.exp, c).asInstanceOf[Type]
+        if(exp != BoolType) throw TypeMismatchInStatement(ast)
+        ast.sl.map(x=>visit(x,c))
+        c
+    }
 //
-//    override def visitReturn(ast: Return, c: Any): Any = {
+    override def visitReturn(ast: Return, c: Any): Any = {
+        println("visit return", ast, c)
 //        val env = c.asInstanceOf[List[Any]]
 //        val expEnv = env(0).asInstanceOf[List[List[Decl]]].flatten.filter(_.isInstanceOf[FuncDecl]).asInstanceOf[List[FuncDecl]]
 //        val funcType = expEnv(0).returnType
@@ -309,7 +310,7 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
 //          if (returnType != BoolType) throw TypeMismatchInStatement(ast)
 //        }
 //        List(env(0), true, env(2))
-//    }
+    }
 
     override def visitIntType(ast: IntType.type, c: Any): Any = IntType
 
@@ -342,5 +343,11 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
         if(varid != None) varid.get
         else null
     }
+
+//    def lookupReturn(Id: String, lst:List[FuncDecl]): FuncDecl = {
+//        lst.foreach(p => {
+//            false
+//        })
+//    }
 
 }
