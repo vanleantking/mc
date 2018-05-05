@@ -18,20 +18,20 @@ import scala.collection.JavaConverters._
 
 
 class StaticChecker(ast:AST) extends BaseVisitor with Utils {
-    
     def check() = {
-        try {
-            val program = visit(ast,null)
-            val tc = new TypeChecking(ast)
-            tc.visit(ast, program)
-        } catch {
-            case Redeclared(k,n) => throw new Redeclared(k,n)
-            case Undeclared(k,n) => throw new Undeclared(k,n)
-        }
+        val program = visit(ast,null)
+        val tc = new TypeChecking(ast)
+        tc.visit(ast, program)
     }
 
-    override def visitProgram(ast: Program, c: Any): Any =
-        ast.decl.filter(p => p.isInstanceOf[Decl]).foldLeft(List[Decl]())((x,y)=>visit(y,x).asInstanceOf[List[Decl]])
+    override def visitProgram(ast: Program, c: Any): Any ={
+        val builtinFun = listlBuildInFuncs().asInstanceOf[List[Decl]]
+        val funcs = ast.decl.filter(p=>p.isInstanceOf[FuncDecl]).asInstanceOf[List[FuncDecl]]
+        if(lookupFunc("main",funcs) == null) throw NoEntryPoint
+        val proenv = ast.decl.filter(p => p.isInstanceOf[Decl]).foldLeft(List[Decl]())((x,y)=>visit(y,x).asInstanceOf[List[Decl]])
+        builtinFun:::proenv
+    }
+
 
     override def visitVarDecl(ast: VarDecl, c: Any): Any = {
         var vardecl = c.asInstanceOf[List[Decl]]//.filter(p=>p.isInstanceOf[VarDecl]).toList
@@ -73,13 +73,37 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
         val body = ast.decl.filter(p=>p.isInstanceOf[VarDecl]).foldLeft(List[VarDecl]())((x,y)=>visit(y,params).asInstanceOf[List[VarDecl]])
         body
     }
+
+    def listlBuildInFuncs() = {
+        List(
+            FuncDecl(Id("getInt"), List[VarDecl](), IntType, Block(List[Decl](), List[Stmt]())),
+            FuncDecl(Id("putInt"), List[VarDecl](VarDecl(Id("i"), IntType)), VoidType, Block(List[Decl](), List[Stmt]())),
+            FuncDecl(Id("putIntLn"), List[VarDecl](VarDecl(Id("i"), IntType)), VoidType, Block(List[Decl](), List[Stmt]())),
+            FuncDecl(Id("getFloat"), List[VarDecl](), IntType, Block(List[Decl](), List[Stmt]())),
+            FuncDecl(Id("putFloat"), List[VarDecl](VarDecl(Id("f"), FloatType)), VoidType, Block(List[Decl](), List[Stmt]())),
+            FuncDecl(Id("putFloatLn"), List[VarDecl](VarDecl(Id("f"), FloatType)), VoidType, Block(List[Decl](), List[Stmt]())),
+            FuncDecl(Id("putString"), List[VarDecl](VarDecl(Id("s"), StringType)), VoidType, Block(List[Decl](), List[Stmt]())),
+            FuncDecl(Id("putStringLn"), List[VarDecl](VarDecl(Id("s"), StringType)), VoidType, Block(List[Decl](), List[Stmt]())),
+            FuncDecl(Id("putBool"), List[VarDecl](VarDecl(Id("b"), BoolType)), VoidType, Block(List[Decl](), List[Stmt]())),
+            FuncDecl(Id("putBoolLn"), List[VarDecl](VarDecl(Id("b"), BoolType)), VoidType, Block(List[Decl](), List[Stmt]())),
+            FuncDecl(Id("putLn"), List[VarDecl](), VoidType, Block(List[Decl](), List[Stmt]()))
+        )
+    }
+
+    def lookupFunc(Id:String, lst:List[FuncDecl]):FuncDecl = {
+        val varid = lookup(Id,lst,(s:FuncDecl)=>s.name.name)
+        if(varid != None) varid.get
+        else null
+    }
     
 }
 
 class TypeChecking(ast: AST) extends BaseVisitor with Utils {
     override def visitProgram(ast: Program, c: Any): Any ={
         val env = c.asInstanceOf[List[Decl]]
-        println("something", c)
+        val funcs = env.filter(p=>p.isInstanceOf[FuncDecl]).asInstanceOf[List[FuncDecl]]
+        if(lookupFunc("main",funcs) == null) throw NoEntryPoint
+//        println("something", c)
         ast.decl.map(visit(_,c))
     }
 
@@ -106,7 +130,7 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
                         scope.asInstanceOf[List[Any]]
 
                     } else {
-                      visit(y,scope)
+                        visit(y,scope)
                     }
                 }.asInstanceOf[List[Any]]
         })
