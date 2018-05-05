@@ -115,8 +115,6 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
         val isReturn = ast.body.asInstanceOf[Block].stmt.filter(p=>p.isInstanceOf[Return]).size == 0
         if (returnType != VoidType && isReturn == true) throw FunctionNotReturn(ast.name.name)
         visit(ast.body, scope)
-
-
     }
 
     override def visitBlock(ast: Block, c: Any): Any = {
@@ -293,23 +291,19 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
 //
     override def visitReturn(ast: Return, c: Any): Any = {
         println("visit return", ast, c)
-//        val env = c.asInstanceOf[List[Any]]
-//        val expEnv = env(0).asInstanceOf[List[List[Decl]]].flatten.filter(_.isInstanceOf[FuncDecl]).asInstanceOf[List[FuncDecl]]
-//        val funcType = expEnv(0).returnType
-//        val returnType = if (ast.expr == null) null else visit(ast.expr.asInstanceOf[AST], c)
-//        if (funcType == VoidType) {
-//          if (returnType != null) throw TypeMismatchInStatement(ast)
-//        }
-//        else if (funcType == IntType) {
-//          if (returnType != IntType) throw TypeMismatchInStatement(ast)
-//        }
-//        else if (funcType == FloatType) {
-//          if (returnType != IntType && returnType != FloatType) throw TypeMismatchInStatement(ast)
-//        }
-//        else {	//(funcType == BoolType)
-//          if (returnType != BoolType) throw TypeMismatchInStatement(ast)
-//        }
-//        List(env(0), true, env(2))
+        val funcdecl = c.asInstanceOf[List[Any]].filter(p=>p.isInstanceOf[FuncDecl]).asInstanceOf[List[FuncDecl]]
+        val funcType = lookupReturn(ast.toString, funcdecl).returnType
+        val returnType = ast.expr match {
+            case None => null
+            case Some(t) => visit(t,c).asInstanceOf[Type]
+        }
+        if(funcType == VoidType && returnType != null)  throw TypeMismatchInStatement(ast)
+
+        if(funcType == IntType && returnType != IntType) throw TypeMismatchInStatement(ast)
+
+        if(funcType == FloatType && returnType != IntType && returnType != FloatType) throw TypeMismatchInStatement(ast)
+
+        if(funcType == BoolType && returnType != BoolType) throw TypeMismatchInStatement(ast)
     }
 
     override def visitIntType(ast: IntType.type, c: Any): Any = IntType
@@ -344,10 +338,16 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
         else null
     }
 
-//    def lookupReturn(Id: String, lst:List[FuncDecl]): FuncDecl = {
-//        lst.foreach(p => {
-//            false
-//        })
-//    }
+    def lookupReturn(Id: String, lst:List[FuncDecl]): FuncDecl = {
+        lst match {
+            case List() => null
+            case head::tail => {
+                val rt = head.body.asInstanceOf[Block].stmt.filter(p=>p.isInstanceOf[Return])
+                if(rt.size > 0 && rt(0).asInstanceOf[Return].toString == Id)
+                    head.asInstanceOf[FuncDecl]
+                else lookupReturn(Id, tail)
+            }
+        }
+    }
 
 }
