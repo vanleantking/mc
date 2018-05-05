@@ -117,23 +117,30 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
     override def visitBlock(ast: Block, c: Any): Any = {
         val blscope = ast.decl.asInstanceOf[List[Any]]
         val scope = blscope:::c.asInstanceOf[List[Any]]
+        println("visit block")
         ast.stmt.foldLeft(scope)((x,y) => {
-                if(y.isInstanceOf[Expr]){
+            println(y)
+            if(y.isInstanceOf[Expr]){
+                visit(y,scope)
+                println("xxxxxx", scope)
+                scope.asInstanceOf[List[Any]]
+//                println("cccccccc")
+            }
+            else{
+                if(y.isInstanceOf[Block]) {
+                    val cBlock = y.asInstanceOf[Block].decl.asInstanceOf[List[Any]]
+                    val childscope =  cBlock::: scope
+                    visit(y, childscope)
+                    scope.asInstanceOf[List[Any]]
+
+                } else {
+                    println("elseeeeee", y)
                     visit(y,scope)
                     scope.asInstanceOf[List[Any]]
                 }
-                else{
-                    if(y.isInstanceOf[Block]) {
-                        val cBlock = y.asInstanceOf[Block].decl.asInstanceOf[List[Any]]
-                        val childscope =  cBlock::: scope
-                        visit(y, childscope)
-                        scope.asInstanceOf[List[Any]]
-
-                    } else {
-                        visit(y,scope)
-                    }
-                }.asInstanceOf[List[Any]]
+            }.asInstanceOf[List[Any]]
         })
+        println("out block")
     }
 
     override def visitBinaryOp(ast: BinaryOp, c: Any): Any = {
@@ -258,28 +265,17 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
     }
 
 
-//    override def visitIf(ast: If, c: Any): Any = {
-//        val env = c.asInstanceOf[List[Any]]
-//        val tmpEnv = env(0).asInstanceOf[List[List[Decl]]]
-//        if (visit(ast.expr, c).asInstanceOf[Type] != BoolType) throw TypeMismatchInStatement(ast)
-//        if (env(1) == true) c
-//        else {	//(env(1) == false)
-//            if (ast.elseStmt != None) {
-//                val returnPath = List(ast.thenStmt, ast.elseStmt.get).map(x =>
-//                    if (x.isInstanceOf[Block]) x.accept(this, List(List[Decl]() :: tmpEnv, env(1), env(2)))
-//                    else x.accept(this, c)).asInstanceOf[List[Any]]
-//                if (returnPath.filter(_.isInstanceOf[Type] == false).forall(x => x.asInstanceOf[List[Any]](1) == true))
-//                    List(env(0), true, env(2))
-//                else c
-//            }
-//            else {
-//                if (ast.thenStmt.isInstanceOf[Block]) ast.thenStmt.accept(this, List(List[Decl]() :: tmpEnv, env(1), env(2)))
-//                else ast.thenStmt.accept(this, c)
-//                c
-//            }
-//        }
-//    }
-//
+    override def visitIf(ast: If, c: Any): Any = {
+        val env = c.asInstanceOf[List[Any]]
+        if (visit(ast.expr, c).asInstanceOf[Type] != BoolType) throw TypeMismatchInStatement(ast)
+        ast.elseStmt match {
+            case None => None
+            case Some(t) => visit(t,c)
+        }
+        val thenStmt = visit(ast.thenStmt,c)
+
+    }
+
 //    override def visitFor(ast: For, c: Any): Any = {
 //        val env = c.asInstanceOf[List[Any]]
 //        val tmpEnv = env(0).asInstanceOf[List[List[Decl]]]
