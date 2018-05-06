@@ -261,6 +261,10 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
         val arr = visit(ast.arr, c).asInstanceOf[Type]
         val idx = visit(ast.idx, c).asInstanceOf[Type]
 
+        if (!arr.isInstanceOf[ArrayType] && !arr.isInstanceOf[ArrayPointerType])
+            throw TypeMismatchInExpression(ast)
+        if(idx != IntType) throw TypeMismatchInExpression(ast)
+
         if (arr.isInstanceOf[ArrayType])
             arr.asInstanceOf[ArrayType].eleType
         else arr.asInstanceOf[ArrayPointerType].eleType
