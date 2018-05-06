@@ -351,24 +351,24 @@ class CheckerSuite extends FunSuite with TestChecker {
     val expected = "Type Mismatch In Expression: BinaryOp(=,CallExpr(Id(e),List(StringLiteral(buzz),Id(f))),Id(v))"
     assert(checkCkr(input, expected, 457))
   }
+//////
+//////  test("Redeclare variable 427") {
+//////    val input = "void a(int v){int c;v(g)[b]=d+b;} int d, b; int v(){} "
+//////    val expected = "Redeclared Variable: a"
+//////    assert(checkCkr(input,expected,427))
+//////  }
 ////
-////  test("Redeclare variable 427") {
-////    val input = "void a(int v){int c;v(g)[b]=d+b;} int d, b; int v(){} "
-////    val expected = "Redeclared Variable: a"
-////    assert(checkCkr(input,expected,427))
-////  }
-//
-////  test("Redeclare variable 428") {
-////    val input = "int a, b; void r(int a, int b){float c[3]; c[3]=a+b; c[2] = a/b+b;} int d;"
-////    val expected = ""
-////    assert(checkCkr(input,expected,428))
-////  }
-//
-////  test("Redeclare variable 428") {
-////    val input = "int foo() {goo(foo());} int goo(int b) {goo(goo(4,2));}"
-////    val expected = "Redeclared Variable: a"
-////    assert(checkCkr(input,expected,428))
-////  }
+//////  test("Redeclare variable 428") {
+//////    val input = "int a, b; void r(int a, int b){float c[3]; c[3]=a+b; c[2] = a/b+b;} int d;"
+//////    val expected = ""
+//////    assert(checkCkr(input,expected,428))
+//////  }
+////
+//////  test("Redeclare variable 428") {
+//////    val input = "int foo() {goo(foo());} int goo(int b) {goo(goo(4,2));}"
+//////    val expected = "Redeclared Variable: a"
+//////    assert(checkCkr(input,expected,428))
+//////  }
 
   test("Undeclared Function") {
     val input = "void main () {writeIntLn(3);}"
@@ -550,54 +550,116 @@ class CheckerSuite extends FunSuite with TestChecker {
             {
             do
                {
+                  break;
+               } while (true);
+
+            }
+          """.stripMargin
+    val expected = ""
+    assert(checkCkr(input,expected,486))
+  }
+
+  test("a for 487") {
+    val input =
+      """
+            void main()
+            {
+            do
+               {
                   if(true) false;
                   break;
                }{} while (true);
 
             }
           """.stripMargin
-    val expected = "Break Not In Loop"
-    assert(checkCkr(input,expected,486))
+    val expected = ""
+    assert(checkCkr(input,expected,487))
+  }
+
+  test("a for 488") {
+    val input ="void main(int a, float b) {int i;for(i;i<5;i=i+1) break; }"
+    val expected = ""
+    assert(checkCkr(input,expected,488))
+  }
+
+  test("a for 489") {
+    val input ="void main(int a, float b) {int i;for(i;i<5;i=i+1) {if(i==3) break;} }"
+    val expected = ""
+    assert(checkCkr(input,expected,489))
+  }
+
+  test("a for 490") {
+    val input ="void main(int a, float b) {int i;for(i;i<5;i=i+1) continue; }"
+    val expected = ""
+    assert(checkCkr(input,expected,490))
+  }
+
+  test("a for 491") {
+    val input ="void main(int a, float b) {int i;for(i;i<5;i=i+1) {if(i==3) continue;} }"
+    val expected = ""
+    assert(checkCkr(input,expected,491))
+  }
+
+  test("a for 492") {
+    val input ="int foo() {goo(foo(),2.1+4/4-2.0);} int goo(int b,float c) {goo(goo(4,2.0),4+2/2-2);}"
+    val expected = "No Entry Point"
+    assert(checkCkr(input,expected,492))
+  }
+
+  test("a for 493") {
+    val input ="int main() {goo(foo(),2.1+4/4-2.0);} int goo(int b,float c) {goo(goo(4,2.0),4+2/2-2);}"
+    val expected = "Function Not Return: main"
+    assert(checkCkr(input,expected,493))
+  }
+
+  test("a for 494") {
+    val input ="void main() {goo(foo(),2*4/4*2.0);} int goo(int b,float c) {goo(goo(4,2.0),4*2/2*2);}"
+    val expected = "Undeclared Function: foo"
+    assert(checkCkr(input,expected,494))
   }
 
   test("xxx") {
     val input = """
-  void main(){
-   int a,b;
-         a = b;
-        }
-        void f(int c[]){
-         return true;
-        } """
+    void main(){
+     int a,b;
+     a = b;
+    }
+    void f(int c[]){
+     return true;
+    } """
     val expected ="Type Mismatch In Statement: Return(Some(BooleanLiteral(true)))"
-    assert(checkCkr(input, expected, 999))
+    assert(checkCkr(input, expected, 495))
   }
 
-//  test("a for 486") {
-//        val input =
-//          """
-//            int main()
-//
-//            {
-//
-//               int n, rev;
-//               rev = 0;
-//               do
-//               {
-//                  int n;
-//                  if(n>3) n=n-2; else if(n<0) n = 0; else {rev = rev*2; n=n+1;}
-//                  rev = rev * 10;
-//                  rev = rev + n%10;
-//                  n = n/10;
-//               } while (n != 0);
-//
-//               return 0;
-//
-//            }
-//          """.stripMargin
-//        val expected = ""
-//    assert(checkCkr(input,expected,486))
-//      }
+    test("a simple test variable decl 496") {
+      val input = "int a;void main() {int v,f,y; boolean u;u=(v+3)>=(y-3)&&!(f>a);f=f/4+5/6*3--2*(a+3);}"
+      val expected = ""
+
+      assert(checkCkr(input, expected, 496))
+    }
+    test("a assignment array 497") {
+      val input = "void main(){int a[7],b,c;float f; a[6] = func(b,c);f=1.1e-2;int t; t=\"this\'s a string\";}"
+      val expected = "Undeclared Function: func"
+      assert(checkCkr(input, expected, 497))
+    }
+
+    test("a assignment array 498") {
+      val input = "void main(){int a[5], b[6]; boolean c, f[4],r; c = f&&r||!r==f;}"
+      val expected = "Type Mismatch In Expression: BinaryOp(&&,Id(f),Id(r))"
+      assert(checkCkr(input, expected, 498))
+    }
+
+    test("a assignment array 499") {
+      val input = "int a,b,c,t; int function(int a, int u){return a;} void main(){a=b=c=function(t,u);}"
+      val expected = "Undeclared Identifier: u"
+      assert(checkCkr(input, expected, 499))
+    }
+
+    test("a assignment array 500") {
+      val input = "void function(int i, int j){} void main(){int i,j; for(i=0;i<=5;i=i+1) {for(j=i;j<5;j=j+1) function(i,j);}}"
+      val expected = ""
+      assert(checkCkr(input, expected, 500))
+    }
 
 
 
