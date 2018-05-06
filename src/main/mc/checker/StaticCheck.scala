@@ -34,7 +34,7 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
 
 
     override def visitVarDecl(ast: VarDecl, c: Any): Any = {
-        var vardecl = c.asInstanceOf[List[Decl]]//.filter(p=>p.isInstanceOf[VarDecl]).toList
+        var vardecl = c.asInstanceOf[List[Decl]]
         if (vardecl.filter(p=>p.isInstanceOf[VarDecl]).exists(x => x.asInstanceOf[VarDecl].variable.name.toString == ast.variable.name.toString))
             throw Redeclared(Variable, ast.variable.name.toString)
 
@@ -44,7 +44,7 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
     }
 
     override def visitFuncDecl(ast: FuncDecl, c: Any): Any = {
-        var funcdecl = c.asInstanceOf[List[Decl]]//.filter(p=>p.isInstanceOf[FuncDecl])
+        var funcdecl = c.asInstanceOf[List[Decl]]
         if (funcdecl.filter(p=>p.isInstanceOf[FuncDecl]).exists(x => x.asInstanceOf[FuncDecl].name.toString == ast.name.toString))
             throw Redeclared(Function, ast.name.name.toString)
 
@@ -70,7 +70,7 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
 
     override def visitBlock(ast: Block, c: Any): Any = {
         val params = c.asInstanceOf[List[VarDecl]].filter(p=>p.isInstanceOf[VarDecl])
-        val body = ast.decl.filter(p=>p.isInstanceOf[VarDecl]).foldLeft(List[VarDecl]())((x,y)=>visit(y,params).asInstanceOf[List[VarDecl]])
+        val body = ast.decl.filter(p=>p.isInstanceOf[VarDecl]).foldLeft(params)((x,y)=>visit(y,x).asInstanceOf[List[VarDecl]])
         body
     }
 
