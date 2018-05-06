@@ -118,6 +118,7 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
     }
 
     override def visitBlock(ast: Block, c: Any): Any = {
+        println("visit block")
         val blscope = ast.decl.asInstanceOf[List[Any]]
         val scope = blscope:::c.asInstanceOf[List[Any]]
         ast.stmt.foldLeft(scope)((x,y) => {
@@ -286,11 +287,11 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
         val exp = visit(ast.exp, c).asInstanceOf[Type]
         if(exp != BoolType) throw TypeMismatchInStatement(ast)
         ast.sl.map(x=>visit(x,c))
+
         c
     }
 //
     override def visitReturn(ast: Return, c: Any): Any = {
-        println("visit return", ast, c)
         val funcdecl = c.asInstanceOf[List[Any]].filter(p=>p.isInstanceOf[FuncDecl]).asInstanceOf[List[FuncDecl]]
         val funcType = lookupReturn(ast.toString, funcdecl).returnType
         val returnType = ast.expr match {
