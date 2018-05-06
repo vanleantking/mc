@@ -134,7 +134,11 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
                     scope.asInstanceOf[List[Any]]
 
                 } else {
-                    visit(y,scope)
+                    var isLoop = false
+                    if (y.isInstanceOf[For] || y.isInstanceOf[Dowhile])
+                        isLoop = true
+                    val env = List(scope, isLoop)
+                    visit(y,env)
                     scope.asInstanceOf[List[Any]]
                 }
             }.asInstanceOf[List[Any]]
@@ -264,39 +268,46 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
 
 
     override def visitIf(ast: If, c: Any): Any = {
-        val env = c.asInstanceOf[List[Any]]
-        if (visit(ast.expr, c).asInstanceOf[Type] != BoolType) throw TypeMismatchInStatement(ast)
+        val scope = c.asInstanceOf[List[Any]]
+        val env = scope(0).asInstanceOf[List[Any]]
+        if (visit(ast.expr, env).asInstanceOf[Type] != BoolType) throw TypeMismatchInStatement(ast)
         ast.elseStmt match {
             case None => None
-            case Some(t) => visit(t,c)
+            case Some(t) => if(t.isInstanceOf[Expr] || t.isInstanceOf[Block]) visit(t,env) else visit(t,c)
         }
-        val thenStmt = visit(ast.thenStmt,c)
+        val thenStmt = if(ast.thenStmt.isInstanceOf[Expr] || ast.thenStmt.isInstanceOf[Block]) visit(ast.thenStmt,env) else visit(ast.thenStmt,c)
         c
 
     }
 
     override def visitFor(ast: For, c: Any): Any = {
-        if (ast.expr1.accept(this, c).asInstanceOf[Type] != IntType) throw TypeMismatchInStatement(ast)
-        if (ast.expr3.accept(this, c).asInstanceOf[Type] != IntType) throw TypeMismatchInStatement(ast)
-        if (ast.expr2.accept(this, c).asInstanceOf[Type] != BoolType) throw TypeMismatchInStatement(ast)
-        visit(ast.loop, c)
+        val scope = c.asInstanceOf[List[Any]]
+        val env = scope(0).asInstanceOf[List[Any]]
+        if (ast.expr1.accept(this, env).asInstanceOf[Type] != IntType) throw TypeMismatchInStatement(ast)
+        if (ast.expr3.accept(this, env).asInstanceOf[Type] != IntType) throw TypeMismatchInStatement(ast)
+        if (ast.expr2.accept(this, env).asInstanceOf[Type] != BoolType) throw TypeMismatchInStatement(ast)
+        if(ast.loop.isInstanceOf[Expr] || ast.loop.isInstanceOf[Block]) visit(ast.loop, env) else visit(ast.loop, c)
         c
     }
 
     override def visitDowhile(ast: Dowhile, c: Any): Any = {
-        val exp = visit(ast.exp, c).asInstanceOf[Type]
+        val scope = c.asInstanceOf[List[Any]]
+        val env = scope(0).asInstanceOf[List[Any]]
+        val exp = visit(ast.exp, env).asInstanceOf[Type]
         if(exp != BoolType) throw TypeMismatchInStatement(ast)
-        ast.sl.map(x=>visit(x,c))
+        ast.sl.map(x=>if(x.isInstanceOf[Expr] || x.isInstanceOf[Block]) visit(x,env) else visit(x,c))
 
         c
     }
 //
     override def visitReturn(ast: Return, c: Any): Any = {
-        val funcdecl = c.asInstanceOf[List[Any]].filter(p=>p.isInstanceOf[FuncDecl]).asInstanceOf[List[FuncDecl]]
+        val scope = c.asInstanceOf[List[Any]]
+        val env = scope(0).asInstanceOf[List[Any]]
+        val funcdecl = env.asInstanceOf[List[Any]].filter(p=>p.isInstanceOf[FuncDecl]).asInstanceOf[List[FuncDecl]]
         val funcType = lookupReturn(ast.toString, funcdecl).returnType
         val returnType = ast.expr match {
             case None => null
-            case Some(t) => visit(t,c).asInstanceOf[Type]
+            case Some(t) => visit(t,env).asInstanceOf[Type]
         }
         if(funcType == VoidType && returnType != null)  throw TypeMismatchInStatement(ast)
 
@@ -305,6 +316,18 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
         if(funcType == FloatType && returnType != IntType && returnType != FloatType) throw TypeMismatchInStatement(ast)
 
         if(funcType == BoolType && returnType != BoolType) throw TypeMismatchInStatement(ast)
+    }
+
+    override def visitContinue(ast: Continue.type, c: Any): Any = {
+        val scope = c.asInstanceOf[List[Any]]
+        val isLoop = scope(1)
+        if (isLoop == false) throw ContinueNotInLoop
+    }
+
+    override def visitBreak(ast: Break.type, c: Any): Any = {
+        val scope = c.asInstanceOf[List[Any]]
+        val isLoop = scope(1)
+        if (isLoop == false) throw BreakNotInLoop
     }
 
     override def visitIntType(ast: IntType.type, c: Any): Any = IntType
