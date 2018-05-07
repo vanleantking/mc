@@ -115,6 +115,8 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
         val isReturn = ast.body.asInstanceOf[Block].stmt.filter(p=>p.isInstanceOf[Return]).size == 0
         if (returnType != VoidType && isReturn == true) throw FunctionNotReturn(ast.name.name)
         visit(ast.body, scope)
+        val isUnreach = lookupUnreachStmt(ast)
+        if(isUnreach != null) throw UnreachableStatement(isUnreach)
     }
 
     override def visitBlock(ast: Block, c: Any): Any = {
@@ -303,7 +305,7 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
 
         c
     }
-//
+
     override def visitReturn(ast: Return, c: Any): Any = {
         val scope = c.asInstanceOf[List[Any]]
         val env = scope(0).asInstanceOf[List[Any]]
@@ -376,6 +378,17 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
                 else lookupReturn(Id, tail)
             }
         }
+    }
+
+
+    def lookupUnreachStmt(func: FuncDecl): Stmt = {
+        val stmts = func.body.asInstanceOf[Block].stmt
+        val idxReturn = stmts.indexWhere(_.isInstanceOf[Return])
+        if(idxReturn != -1) {
+            val lstStmts = stmts.splitAt(idxReturn+1)
+            if(lstStmts._2.size > 0) lstStmts._2(0)
+            else null
+        } else null
     }
 
 }

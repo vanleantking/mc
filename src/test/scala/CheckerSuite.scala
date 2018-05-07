@@ -661,6 +661,17 @@ class CheckerSuite extends FunSuite with TestChecker {
       assert(checkCkr(input, expected, 500))
     }
 
+  test("a assignment array 501") {
+    val input = "int main(int a, int u){int b; return a;a=b+u;if(b>0) b=0;}"
+    val expected = "Unreachable Statement: BinaryOp(=,Id(a),BinaryOp(+,Id(b),Id(u)))"
+    assert(checkCkr(input, expected, 501))
+  }
+
+  test("a assignment array 502") {
+    val input = "int main(int a, int u){int b; a=b+u;if(b>0) b=0; return a;}"
+    val expected = ""
+    assert(checkCkr(input, expected, 502))
+  }
 
 
 }
