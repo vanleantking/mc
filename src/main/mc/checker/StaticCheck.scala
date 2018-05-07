@@ -99,12 +99,16 @@ class StaticChecker(ast:AST) extends BaseVisitor with Utils {
 }
 
 class TypeChecking(ast: AST) extends BaseVisitor with Utils {
+    var lstCallExpr = List[CallExpr]()
     override def visitProgram(ast: Program, c: Any): Any ={
         val env = c.asInstanceOf[List[Decl]]
         val funcs = env.filter(p=>p.isInstanceOf[FuncDecl]).asInstanceOf[List[FuncDecl]]
         if(lookupFunc("main",funcs) == null) throw NoEntryPoint
-//        println("something", c)
         ast.decl.map(visit(_,c))
+        funcs.filter(p=>p.name.name != "main").foreach(p=>{
+            val unreachFunc = lookupUnreachFunc(lstCallExpr, p)
+            if(unreachFunc == null) throw UnreachableFunction(p.name.name)
+        })
     }
 
     override def visitFuncDecl(ast: FuncDecl, c: Any): Any = {
@@ -255,7 +259,7 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
                 }
             }
         }
-
+        lstCallExpr = ast::lstCallExpr
         func.returnType
     }
 
@@ -389,6 +393,13 @@ class TypeChecking(ast: AST) extends BaseVisitor with Utils {
             if(lstStmts._2.size > 0) lstStmts._2(0)
             else null
         } else null
+    }
+
+
+    def lookupUnreachFunc(lst: List[CallExpr], func: FuncDecl) = {
+        val unFunc = lookup(func.name.name, lst, (s:CallExpr)=>s.method.name)
+        if(unFunc != None) unFunc.get
+        else null
     }
 
 }

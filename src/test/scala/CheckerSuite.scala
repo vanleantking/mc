@@ -673,5 +673,11 @@ class CheckerSuite extends FunSuite with TestChecker {
     assert(checkCkr(input, expected, 502))
   }
 
+  test("a assignment array 503") {
+    val input = "int main(int a, int u){int b; a=b+u;if(b>0) b=0; return a;} void foo(){}"
+    val expected = ""
+    assert(checkCkr(input, expected, 503))
+  }
+
 
 }
