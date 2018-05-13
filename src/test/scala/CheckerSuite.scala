@@ -679,5 +679,19 @@ class CheckerSuite extends FunSuite with TestChecker {
     assert(checkCkr(input, expected, 503))
   }
 
+  test("zzzzzzzzzz") {
+    val input = """
+   void main(){}
+    void foo (float a[]);
+   void goo (float x[]){
+     float y[10];
+     int z[10];
+     foo(x);
+     foo(z);
+   }"""
+    val expected = """Type Mismatch In Expression: CallExpr(Id("foo"),List(Id("z")))"""
+    assert(checkCkr(input, expected, 555))
+  }
+
 
 }
