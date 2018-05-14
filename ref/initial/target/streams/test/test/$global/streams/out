@@ -1,0 +1,16 @@
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(AstSuite, org.scalatest.tools.Framework$$anon$1@3bddbd8b, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(CheckerSuite, org.scalatest.tools.Framework$$anon$1@3bddbd8b, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(ParserSuite, org.scalatest.tools.Framework$$anon$1@3bddbd8b, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(CodeGenSuite, org.scalatest.tools.Framework$$anon$1@3bddbd8b, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(LexerSuite, org.scalatest.tools.Framework$$anon$1@3bddbd8b, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 1 second, 800 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 15[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 5, aborted 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 15, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	ParserSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	AstSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	LexerSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	CheckerSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	CodeGenSuite[0m
