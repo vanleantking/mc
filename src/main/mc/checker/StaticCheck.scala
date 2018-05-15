@@ -1,7 +1,9 @@
 package mc.checker
 
 /**
- * @author nhphung
+  * Ho ten: Le Van
+  * MSHV: 7141249
+  *
  */
 
 import mc.parser._
