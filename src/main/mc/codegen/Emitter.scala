@@ -26,8 +26,9 @@ class Emitter(filename:String) {
     case IntType => "I"
     case StringType => "Ljava/lang/String;"
     case VoidType => "V"
-    case PointerType(t) => "["+getJVMType(t)
-    case MType(il,o) => "("+il.foldLeft("")(_+getJVMType(_))+")"+getJVMType(o)
+    case ArrayPointerType(t) => "["+getJVMType(t)
+//    case ArrayType(d,t) =>
+    case FunctionType(il,o) => "("+il.foldLeft("")(_+getJVMType(_))+")"+getJVMType(o)
     case ClassType(t) => "L"+t+";"
   }
   def getFullType(inType:Type):String = inType match {
@@ -89,7 +90,7 @@ class Emitter(filename:String) {
       in match {
         case IntType => jvm.emitIALOAD()
 
-        case (PointerType(_)|ClassType(_)|StringType) => jvm.emitAALOAD()
+        case (ArrayPointerType(_)|ClassType(_)|StringType) => jvm.emitAALOAD()
         case _ => throw IllegalOperandException(in.toString);
       }
 		
@@ -104,7 +105,7 @@ class Emitter(filename:String) {
     	frame.pop();
       in match {
         case IntType => jvm.emitIASTORE()
-        case (PointerType(_)|ClassType(_)|StringType) => jvm.emitAASTORE()
+        case (ArrayPointerType(_)|ClassType(_)|StringType) => jvm.emitAASTORE()
         case _ => throw  IllegalOperandException(in.toString)
       }
 		
@@ -132,7 +133,7 @@ class Emitter(filename:String) {
 			frame.push();
       inType match {
         case (IntType) => jvm.emitILOAD(index)
-        case (PointerType(_)|ClassType(_)|StringType) => jvm.emitALOAD(index)
+        case (ArrayPointerType(_)|ClassType(_)|StringType) => jvm.emitALOAD(index)
         case _ => throw IllegalOperandException(name)
       }
 			
@@ -165,7 +166,7 @@ class Emitter(filename:String) {
     inType match {
       case (IntType ) => jvm.emitISTORE(index)
 
-      case (PointerType(_)|ClassType(_)|StringType) => jvm.emitASTORE(index)
+      case (ArrayPointerType(_)|ClassType(_)|StringType) => jvm.emitASTORE(index)
       
       case _ => throw IllegalOperandException(name)
     }
@@ -225,9 +226,9 @@ class Emitter(filename:String) {
 	*/
 	def emitINVOKESTATIC(lexeme:String,in:Type ,frame:Frame) =
 	{	
-    val typ = in.asInstanceOf[MType]
-    typ.partype.map(x=>frame.pop)
-		if (typ.rettype != VoidType)
+    val typ = in.asInstanceOf[FunctionType]
+    typ.input.map(x=>frame.pop)
+		if (typ.output != VoidType)
 			frame.push();		
 		jvm.emitINVOKESTATIC(lexeme,getJVMType(in));
 	}
@@ -237,10 +238,10 @@ class Emitter(filename:String) {
   */
   def emitINVOKESPECIAL(lexeme:String,in:Type ,frame:Frame) =
   { 
-    val typ = in.asInstanceOf[MType]
-    typ.partype.map(x=>frame.pop)
+    val typ = in.asInstanceOf[FunctionType]
+    typ.input.map(x=>frame.pop)
     frame.pop
-    if (typ.rettype != VoidType)
+    if (typ.output != VoidType)
       frame.push();   
     jvm.emitINVOKESPECIAL(lexeme,getJVMType(in));
   } 
@@ -258,10 +259,10 @@ class Emitter(filename:String) {
   */
   def emitINVOKEVIRTUAL(lexeme:String,in:Type ,frame:Frame) =
   { 
-    val typ = in.asInstanceOf[MType]
-    typ.partype.map(x=>frame.pop)
+    val typ = in.asInstanceOf[FunctionType]
+    typ.input.map(x=>frame.pop)
     frame.pop
-    if (typ.rettype != VoidType)
+    if (typ.output != VoidType)
       frame.push();   
     jvm.emitINVOKEVIRTUAL(lexeme,getJVMType(in));
   } 

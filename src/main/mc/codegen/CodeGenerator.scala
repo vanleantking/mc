@@ -19,10 +19,17 @@ import java.io.{PrintWriter, File}
 
 object CodeGenerator extends Utils {
   val libName = "io"
-  def init() = List( Symbol("getInt",MType(List(),IntType),CName(libName)),
-                     Symbol("putInt",MType(List(IntType),VoidType),CName(libName)),
-                     Symbol("putIntLn",MType(List(IntType),VoidType),CName(libName))
-                    )
+  def init() = List(Symbol("getInt",FunctionType(List(),IntType),CName(libName)),
+    Symbol("putInt",FunctionType(List(IntType),VoidType),CName(libName)),
+    Symbol("putIntLn",FunctionType(List(IntType),VoidType),CName(libName)),
+    Symbol("getFloat",FunctionType(List(),FloatType),CName(libName)),
+    Symbol("putFloat",FunctionType(List(FloatType),VoidType),CName(libName)),
+    Symbol("putFloatLn",FunctionType(List(FloatType),VoidType),CName(libName)),
+    Symbol("putBool",FunctionType(List(BoolType),VoidType),CName(libName)),
+    Symbol("putBoolLn",FunctionType(List(BoolType),VoidType),CName(libName)),
+    Symbol("putString",FunctionType(List(StringType),VoidType),CName(libName)),
+    Symbol("putStringLn",FunctionType(List(StringType),VoidType),CName(libName)),
+    Symbol("putLn",FunctionType(List(),VoidType),CName(libName)))
     
   
 	def gen(ast:AST,dir:File) = {
@@ -37,6 +44,7 @@ object CodeGenerator extends Utils {
 
 
 case class ClassType(cname:String) extends Type
+case class FunctionType(input:List[Type],output:Type) extends Type
 
 
 
@@ -49,6 +57,8 @@ class Access(val frame:Frame,val sym:List[Symbol],val isLeft:Boolean,val isFirst
 trait Val
   case class Index(value:Int) extends Val
   case class CName(value:String) extends Val
+
+case class Symbol(name:String,typ:Type, value:Val)
 
 
 
@@ -64,10 +74,12 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
       
       
       emit.printout(emit.emitPROLOG(className, "java.lang.Object"))    
-      ast.decl.foldLeft(SubBody(null,env))((e,x) => visit(x,e).asInstanceOf[SubBody]) 
+      ast.decl.foldLeft(SubBody(null,env))((e,x) => visit(x,e).asInstanceOf[SubBody])
+//     println("visit program", ast.decl)
       // generate default constructor 
       genMETHOD(
-            FuncDecl("<init>",List(),null,Block(List(),List())),c,new Frame("<init>",VoidType))
+            FuncDecl(Id("<init>"),List(),null,Block(List(),List())),c,new Frame("<init>",VoidType))
+     println("visit program", ast.decl)
       emit.emitEPILOG()
       c   
   }
@@ -85,9 +97,9 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     val isInit = consdecl.returnType == null
     val isMain = consdecl.name == "main" && consdecl.param.length == 0 && consdecl.returnType == VoidType
     val returnType = if (isInit) VoidType else consdecl.returnType
-    val methodName = if (isInit) "<init>" else consdecl.name
-    val intype = if (isMain) List(PointerType(StringType)) else List()
-    val mtype =  MType(intype,returnType)
+    val methodName = if (isInit) "<init>" else consdecl.name.name
+    val intype = if (isMain) List(ArrayPointerType(StringType)) else List()
+    val mtype =  FunctionType(intype,returnType)
     
     emit.printout(emit.emitMETHOD(methodName, mtype, !isInit, frame))
 
@@ -97,7 +109,7 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
 
     // Generate code for parameter declarations
     if (isInit) emit.printout(emit.emitVAR(frame.getNewIndex,"this",ClassType(className),frame.getStartLabel,frame.getEndLabel,frame))
-    if (isMain) emit.printout(emit.emitVAR(frame.getNewIndex,"args",PointerType(StringType),frame.getStartLabel,frame.getEndLabel,frame))
+    if (isMain) emit.printout(emit.emitVAR(frame.getNewIndex,"args",ArrayPointerType(StringType),frame.getStartLabel,frame.getEndLabel,frame))
 
     val body = consdecl.body.asInstanceOf[Block] 
 
@@ -120,9 +132,9 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
 
   override def visitFuncDecl(ast:FuncDecl,o:Any) = {
     val subctxt = o.asInstanceOf[SubBody]
-    val frame = new Frame(ast.name,ast.returnType)
+    val frame = new Frame(ast.name.name,ast.returnType)
     genMETHOD(ast,subctxt.sym,frame)
-    SubBody(null,Symbol(ast.name,MType(List(),ast.returnType),CName(className))::subctxt.sym)
+    SubBody(null,Symbol(ast.name.name,FunctionType(List(),ast.returnType),CName(className))::subctxt.sym)
   }
   
 
@@ -131,9 +143,9 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     val ctxt = o.asInstanceOf[SubBody]
     val frame = ctxt.frame
     val nenv = ctxt.sym
-    val sym = lookup(ast.method,nenv,(x:Symbol)=>x.name).get
+    val sym = lookup(ast.method.name,nenv,(x:Symbol)=>x.name).get
     val cname = sym.value.asInstanceOf[CName].value
-    val ctype = sym.mtype
+    val ctype = sym.typ
 
     val in = ast.params.foldLeft(("",List[Type]()))((y,x)=>
       {
