@@ -97,10 +97,12 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     val isMain = consdecl.name.name == "main" && consdecl.param.length == 0 && consdecl.returnType == VoidType
     val returnType = if (isInit) VoidType else consdecl.returnType
     val methodName = if (isInit) "<init>" else consdecl.name.name
-    val intype = if (isMain) List(ArrayPointerType(StringType)) else List()
+    val intype = if (isMain) List(ArrayPointerType(StringType)) else {
+      consdecl.param.foldLeft(List[Type]())((x,y)=>x:+y.varType.asInstanceOf[Type])
+    }
     val mtype =  FunctionType(intype,returnType)
 
-    emit.printout(emit.emitMETHOD(methodName, mtype, !isInit, frame))
+    emit.printout(emit.emitMETHOD(methodName, mtype, isMain, frame))
 
     frame.enterScope(true);
 
