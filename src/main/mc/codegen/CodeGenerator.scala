@@ -165,4 +165,22 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     (emit.emitPUSHICONST(ast.value, frame),IntType)
   }
 
+  override def visitFloatLiteral(ast: FloatLiteral, c: Any): Any = {
+    val ctxt = c.asInstanceOf[Access]
+    val frame = ctxt.frame.asInstanceOf[Frame]
+    (emit.emitPUSHFCONST(ast.value.toString, frame), FloatType)
+  }
+
+  override def visitBooleanLiteral(ast: BooleanLiteral, c: Any): Any = {
+    val ctxt = c.asInstanceOf[Access]
+    val frame = ctxt.frame.asInstanceOf[Frame]
+    (emit.emitPUSHICONST(ast.value.toString, frame), BoolType)
+  }
+
+  override def visitStringLiteral(ast: StringLiteral, c: Any): Any = {
+    val ctxt = c.asInstanceOf[Access]
+    val frame = ctxt.frame.asInstanceOf[Frame]
+    (emit.emitPUSHCONST("\""+ast.value.toString+"\"", StringType, frame), StringType)
+  }
+
 }

@@ -27,6 +27,8 @@ class Emitter(filename:String) {
     case StringType => "Ljava/lang/String;"
     case VoidType => "V"
     case ArrayPointerType(t) => "["+getJVMType(t)
+		case FloatType => "F"
+		case BoolType => "Z"
 //    case ArrayType(d,t) =>
     case FunctionType(il,o) => "("+il.foldLeft("")(_+getJVMType(_))+")"+getJVMType(o)
     case ClassType(t) => "L"+t+";"
@@ -75,6 +77,7 @@ class Emitter(filename:String) {
       case  (IntType) => emitPUSHICONST(in,frame)
       case StringType => {
         frame.push();
+        println("string type, ", in)
         jvm.emitLDC( in);
       }
       case _ => throw IllegalOperandException(in)
