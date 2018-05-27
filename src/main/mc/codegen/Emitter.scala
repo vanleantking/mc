@@ -379,18 +379,40 @@ class Emitter(filename:String) {
        	frame.pop();
   		  frame.pop();
        	op match {
-          case ">" =>   result.append(jvm.emitIFICMPLE(labelF));
+          case ">" =>
+						if (in == IntType)
+							result.append(jvm.emitIFICMPLE(labelF));
+						else
+							result.append(jvm.emitIFLE(labelF));
 
-          case ">=" =>  result.append(jvm.emitIFICMPLT(labelF));
+          case ">=" =>
+						if (in == IntType)
+							result.append(jvm.emitIFICMPLT(labelF));
+						else
+							result.append(jvm.emitIFLT(labelF));
+          case "<" =>
+						if (in == IntType)
+							result.append(jvm.emitIFICMPGE(labelF));
+						else
+							result.append(jvm.emitIFGE(labelF));
 
-          case "<" =>  result.append(jvm.emitIFICMPGE(labelF));
-
-          case "<=" =>  result.append(jvm.emitIFICMPGT(labelF));
+          case "<=" =>
+						if (in == IntType)
+							result.append(jvm.emitIFICMPGT(labelF));
+						else
+							result.append(jvm.emitIFGT(labelF));
 
           case "!=" =>
-                          result.append(jvm.emitIFICMPEQ(labelF))
+						if (in == IntType)
+							result.append(jvm.emitIFICMPEQ(labelF))
+						else
+							result.append(jvm.emitIFEQ(labelF))
 
-          case "==" =>  result.append(jvm.emitIFICMPNE(labelF))
+					case "==" =>
+						if (in == IntType)
+							result.append(jvm.emitIFICMPNE(labelF))
+						else
+							result.append(jvm.emitIFNE(labelF))
 
         }
        	result.append(emitPUSHCONST("1", IntType,frame));

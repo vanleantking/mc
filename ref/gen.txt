@@ -1,0 +1,41 @@
+symbol => Val
+global => static => string trong 1 field Val trong symbol
+local variable => number => index trong field Val Symbol
+
+
+Cung 1 Id, neu nam ben trai (lvalue) => sinh ma khac <= lay dia chi
+Cung 1 Id, neu nam ben phai (rvalue) => sinh ma khac <= lay gia tri
+
+
+sua trong codegen, file emmitter chi con thieu tao code cho day (array), sua het tat ca trong codegen, con thieu "j do" moi bat dau sua trong emitter
+
+
+statement la 1 expression, expr luon tra ra 1 gia tri, gia tri nay se nam tren stack (bat ki phep toan nao, cho du la voi assignment)
+=> khi sinh ma cho expr, can pop gia tri nay ra khoi stack
+=> trong truong hop expr tra ve kieu void => khong can pop
+
+
+=> Emitter la chuong trinh thay mo phong stack trong qua trinh sinh ma, khong phai la 1 stack de sinh ma.
+khi dung phep gan (ve phai, ve trai) => thi phai dupple gia tri ve phai, lam phep gan xong
+
+
+=> sinh ma cho in ra 1 so thuc
+=> boolean
+=> sinh ma phep toan cong => cong 2 so nguyen, cong 2 so thuc, cong so thuc va so nguyen
+
+
+khai bao id <= su dung index <= frame get new index => truyen vao thanh phan thu 3 cua symbol
+hôm qua thầy nói visitId, dùng read or writevar đó
+
+
+
+
+val varctxt = c.asInstanceOf[Access]//[SubBody] 
+val frame = varctxt.frame 
+val venv = varctxt.sym 
+val idx = frame.getNewIndex() 
+emit.printout(emit.emitVAR(idx,ast.variable.name,ast.varType,frame.getStartLabel(),frame.getEndLabel(),frame)) 
+venv :+ (ast.variable.name, ast.varType, Index(idx))
+
+
+ 
