@@ -187,9 +187,30 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
   override def visitBinaryOp(ast: BinaryOp, c: Any): Any = {
     val ctxt = c.asInstanceOf[Access]
     val frame = ctxt.frame.asInstanceOf[Frame]
-    val left = ast.left.accept(this, c).asInstanceOf[(String, Type)]
-    val right = ast.right.accept(this, c).asInstanceOf[(String, Type)]
-    (left._1 + right._1 + emit.emitADDOP(ast.op, left._2, frame), left._2)
+    var left = ast.left.accept(this, c).asInstanceOf[(String, Type)]
+    var right = ast.right.accept(this, c).asInstanceOf[(String, Type)]
+    var typeop = left._2
+
+    if (left._2 == IntType && right._2 == FloatType) {
+      typeop = right._2
+    }
+
+    var op = ast.op match  {
+      case "+" | "-" => emit.emitADDOP(ast.op, typeop, frame)
+      case "*" | "/" => emit.emitMULOP(ast.op, typeop, frame)
+    }
+    if (left._2 == right._2) {
+      (left._1 + right._1 + op, left._2)
+    } else {
+      if (left._2 == FloatType && right._2 == IntType) {
+        (left._1 + right._1 + emit.emitI2F(frame) + op, typeop)
+      } else if (left._2 == IntType && right._2 == FloatType) {
+        (left._1 + emit.emitI2F(frame) + right._1 + op, typeop)
+      }
+    }
+
+
+
 
   }
 
