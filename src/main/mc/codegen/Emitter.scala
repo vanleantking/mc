@@ -77,7 +77,6 @@ class Emitter(filename:String) {
       case  (IntType) => emitPUSHICONST(in,frame)
       case StringType => {
         frame.push();
-        println("string type, ", in)
         jvm.emitLDC( in);
       }
       case _ => throw IllegalOperandException(in)

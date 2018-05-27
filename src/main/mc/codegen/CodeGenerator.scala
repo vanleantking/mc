@@ -149,6 +149,7 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     val in = ast.params.foldLeft(("",List[Type]()))((y,x)=>
     {
       val (str1,typ1) = visit(x,new Access(frame,nenv,false,true)).asInstanceOf[(String,Type)]
+
       (y._1 + str1,y._2 :+ typ1)
     }
     )
@@ -181,6 +182,15 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     val ctxt = c.asInstanceOf[Access]
     val frame = ctxt.frame.asInstanceOf[Frame]
     (emit.emitPUSHCONST("\""+ast.value.toString+"\"", StringType, frame), StringType)
+  }
+
+  override def visitBinaryOp(ast: BinaryOp, c: Any): Any = {
+    val ctxt = c.asInstanceOf[Access]
+    val frame = ctxt.frame.asInstanceOf[Frame]
+    val left = ast.left.accept(this, c).asInstanceOf[(String, Type)]
+    val right = ast.right.accept(this, c).asInstanceOf[(String, Type)]
+    (left._1 + right._1 + emit.emitADDOP(ast.op, left._2, frame), left._2)
+
   }
 
 }
