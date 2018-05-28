@@ -148,7 +148,6 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
 
     val in = ast.params.foldLeft(("",List[Type]()))((y,x)=>
     {
-//      println(y,x)
       val (str1,typ1) = visit(x,new Access(frame,nenv,false,true)).asInstanceOf[(String,Type)]
 
       (y._1 + str1,y._2 :+ typ1)
@@ -215,6 +214,8 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
         (left._1 + right._1 + emit.emitI2F(frame) + op, typeop)
       } else if (left._2 == IntType && right._2 == FloatType) {
         (left._1 + emit.emitI2F(frame) + right._1 + op, typeop)
+      } else if(left._2 == BoolType || right._2 == BoolType){
+        (left._1 + right._1 + op, BoolType)
       }
     }
   }

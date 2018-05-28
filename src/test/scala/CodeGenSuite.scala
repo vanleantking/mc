@@ -310,12 +310,19 @@ class CodeGenSuite extends FunSuite with TestCodeGen {
   /**
     * failed this tc
     */
-  //  test(" string parameters 547")
-//  {
-//    val input = """void main () {putBoolLn(4+---3>5||false);}"""
-//    val expected = "false"
-//    assert(checkCode(input,expected,547))
-//  }
+  test(" string parameters 547")
+  {
+    val input = """void main () {putBoolLn((4+---3>5)||!true);}"""
+    val expected = "false"
+    assert(checkCode(input,expected,547))
+  }
+
+  test(" string parameters xxx")
+  {
+    val input = """void main () {putBoolLn(4+---3>5||6+5<10&&false&&!true);}"""
+    val expected = "false"
+    assert(checkCode(input,expected,566))
+  }
 
   test(" string parameters 548")
   {
@@ -324,12 +331,12 @@ class CodeGenSuite extends FunSuite with TestCodeGen {
     assert(checkCode(input,expected,548))
   }
 
-//  test(" string parameters 548")
-//  {
-//    val input = """void main () {putBoolLn(4+---3>5||!false);}"""
-//    val expected = "false"
-//    assert(checkCode(input,expected,548))
-//  }
+  test(" string parameters 549")
+  {
+    val input = """void main () {putBoolLn(4>5||(8+8>=9));}"""
+    val expected = "true"
+    assert(checkCode(input,expected,549))
+  }
 
 
 //  test("special program => print 0") {
