@@ -199,6 +199,7 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     /**
       * now only process for + - * / operators
       */
+    // TODO: still not compare in float number (>, <, >=...)
     var op = ast.op match  {
       case "+" | "-" => emit.emitADDOP(ast.op, typeop, frame)
       case "*" | "/" => emit.emitMULOP(ast.op, typeop, frame)
