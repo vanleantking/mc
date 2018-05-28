@@ -74,7 +74,7 @@ class Emitter(filename:String) {
 	*/
 	def emitPUSHCONST(in:String, typ:Type, frame:Frame) = 
 		typ match {
-      case  (IntType) => emitPUSHICONST(in,frame)
+      case  (IntType) | (BoolType) => emitPUSHICONST(in,frame)
       case StringType => {
         frame.push();
         jvm.emitLDC( in);

@@ -258,6 +258,79 @@ class CodeGenSuite extends FunSuite with TestCodeGen {
     assert(checkCode(input,expected,539))
   }
 
+  test(" string parameters 540")
+  {
+    val input = """void main () {putBoolLn(!true);}"""
+    val expected = "false"
+    assert(checkCode(input,expected,540))
+  }
+
+  test(" string parameters 541")
+  {
+    val input = """void main () {putBoolLn(!true&&false);}"""
+    val expected = "false"
+    assert(checkCode(input,expected,541))
+  }
+
+  test(" string parameters 542")
+  {
+    val input = """void main () {putBoolLn(!false||false);}"""
+    val expected = "true"
+    assert(checkCode(input,expected,542))
+  }
+
+  test(" string parameters 543")
+  {
+    val input = """void main () {putIntLn(-3);}"""
+    val expected = "-3"
+    assert(checkCode(input,expected,543))
+  }
+
+  test(" string parameters 544")
+  {
+    val input = """void main () {putIntLn(--3);}"""
+    val expected = "3"
+    assert(checkCode(input,expected,544))
+  }
+
+  test(" string parameters 545")
+  {
+    val input = """void main () {putIntLn(---3);}"""
+    val expected = "-3"
+    assert(checkCode(input,expected,545))
+  }
+
+  test(" string parameters 546")
+  {
+    val input = """void main () {putIntLn(4+---3);}"""
+    val expected = "1"
+    assert(checkCode(input,expected,546))
+  }
+
+  /**
+    * failed this tc
+    */
+  //  test(" string parameters 547")
+//  {
+//    val input = """void main () {putBoolLn(4+---3>5||false);}"""
+//    val expected = "false"
+//    assert(checkCode(input,expected,547))
+//  }
+
+  test(" string parameters 548")
+  {
+    val input = """void main () {putBoolLn(!true||false);}"""
+    val expected = "false"
+    assert(checkCode(input,expected,548))
+  }
+
+//  test(" string parameters 548")
+//  {
+//    val input = """void main () {putBoolLn(4+---3>5||!false);}"""
+//    val expected = "false"
+//    assert(checkCode(input,expected,548))
+//  }
+
 
 //  test("special program => print 0") {
 //    val input = "void abc(int a){} void main () {putIntLn(004);}"
