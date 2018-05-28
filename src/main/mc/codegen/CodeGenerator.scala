@@ -201,6 +201,9 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     var op = ast.op match  {
       case "+" | "-" => emit.emitADDOP(ast.op, typeop, frame)
       case "*" | "/" => emit.emitMULOP(ast.op, typeop, frame)
+      case "&&" => emit.emitANDOP(frame)
+      case "||" => emit.emitOROP(frame)
+      case "%" => emit.emitMOD(frame)
       case _ => emit.emitREOP(ast.op, typeop, frame)
     }
     if (left._2 == right._2) {

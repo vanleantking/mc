@@ -195,12 +195,68 @@ class CodeGenSuite extends FunSuite with TestCodeGen {
     assert(checkCode(input,expected,530))
   }
 
-//  test(" string parameters 531")
-//  {
-//    val input = """void main () {putBoolLn(3.0 != 4.0);}"""
-//    val expected = "true"
-//    assert(checkCode(input,expected,531))
-//  }
+  test(" string parameters 531")
+  {
+    val input = """void main () {putBoolLn(true && true);}"""
+    val expected = "true"
+    assert(checkCode(input,expected,531))
+  }
+
+  test(" string parameters 532")
+  {
+    val input = """void main () {putBoolLn(true && false);}"""
+    val expected = "false"
+    assert(checkCode(input,expected,532))
+  }
+
+  test(" string parameters 533")
+  {
+    val input = """void main () {putBoolLn(false && false);}"""
+    val expected = "false"
+    assert(checkCode(input,expected,533))
+  }
+
+  test(" string parameters 534")
+  {
+    val input = """void main () {putBoolLn(false && true);}"""
+    val expected = "false"
+    assert(checkCode(input,expected,534))
+  }
+
+  test(" string parameters 535")
+  {
+    val input = """void main () {putBoolLn(true || true);}"""
+    val expected = "true"
+    assert(checkCode(input,expected,535))
+  }
+
+  test(" string parameters 536")
+  {
+    val input = """void main () {putBoolLn(false || true);}"""
+    val expected = "true"
+    assert(checkCode(input,expected,536))
+  }
+
+  test(" string parameters 537")
+  {
+    val input = """void main () {putBoolLn(true || false);}"""
+    val expected = "true"
+    assert(checkCode(input,expected,537))
+  }
+
+  test(" string parameters 538")
+  {
+    val input = """void main () {putBoolLn(false || false);}"""
+    val expected = "false"
+    assert(checkCode(input,expected,538))
+  }
+
+  test(" string parameters 539")
+  {
+    val input = """void main () {putIntLn(4%3);}"""
+    val expected = "1"
+    assert(checkCode(input,expected,539))
+  }
 
 
 //  test("special program => print 0") {

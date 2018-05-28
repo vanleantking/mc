@@ -79,6 +79,7 @@ class Emitter(filename:String) {
         frame.push();
         jvm.emitLDC( in);
       }
+      case  (FloatType) => emitPUSHFCONST(in,frame)
       case _ => throw IllegalOperandException(in)
     }
 
@@ -415,11 +416,11 @@ class Emitter(filename:String) {
 							result.append(jvm.emitIFNE(labelF))
 
         }
-       	result.append(emitPUSHCONST("1", IntType,frame));
+       	result.append(emitPUSHCONST("1", in,frame));
         frame.pop()
        	result.append(emitGOTO(labelO,frame));
       	result.append(emitLABEL(labelF,frame));
-       	result.append(emitPUSHCONST("0", IntType,frame));
+       	result.append(emitPUSHCONST("0", in,frame));
        	result.append(emitLABEL(labelO,frame));
        	result.toString();
 	}
