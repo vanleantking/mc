@@ -52,7 +52,7 @@ case class FunctionType(input:List[Type],output:Type) extends Type
 
 case class SubBody(frame:Frame,sym:List[Symbol])
 
-class Access(val frame:Frame,val sym:List[Symbol],val isLeft:Boolean,val isFirst:Boolean)
+case class Access(val frame:Frame,val sym:List[Symbol],val isLeft:Boolean,val isFirst:Boolean)
 
 trait Val
 case class Index(value:Int) extends Val
@@ -118,7 +118,15 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
       emit.printout(emit.emitREADVAR("this",ClassType(className),0,frame))
       emit.printout(emit.emitINVOKESPECIAL(frame))
     }
-    body.stmt.map(x=>visit(x,SubBody(frame,glenv)))
+
+    val subBody = body.decl.foldLeft(Access(frame, glenv, true, false))((x, y) => visit(y, x).asInstanceOf[Access])
+    body.stmt.map(x=>{
+      println("visit gen method", subBody.sym)
+      if (x.isInstanceOf[Expr])
+        visit(x, Access(subBody.frame, subBody.sym, false, true))
+      else visit(x,subBody) })
+
+    /////body.stmt.map(x=>visit(x,SubBody(frame,glenv)))
 
     emit.printout(emit.emitLABEL(frame.getEndLabel(),frame))
     if (returnType == VoidType) emit.printout(emit.emitRETURN(VoidType,frame));
@@ -184,6 +192,24 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     (emit.emitPUSHCONST("\""+ast.value.toString+"\"", StringType, frame), StringType)
   }
 
+  override def visitBlock(ast: Block, c: Any): Any = {
+    println("visit blockkkkkkkkkkkkkkk")
+    val ctxt = c.asInstanceOf[Access]
+    val frame = ctxt.frame.asInstanceOf[Frame]
+    val lstenv = ctxt.sym
+
+    frame.enterScope(true)
+    println("visit blockkkkkkkkkkkkkkk")
+    val newEnv = ast.decl.filter(_.isInstanceOf[VarDecl]).foldLeft(lstenv)((a, b) => {
+      val varDecl = b.asInstanceOf[VarDecl]
+      val symbol = Symbol(varDecl.variable.name, varDecl.varType, Index(frame.getNewIndex()))
+      symbol::a})
+    ast.stmt.foreach(stmt => visit(stmt, Access(frame, newEnv, false, true)))
+    println("visit blockkkkkkkkkkkkkkk")
+    frame.exitScope()
+
+  }
+
   override def visitBinaryOp(ast: BinaryOp, c: Any): Any = {
     val ctxt = c.asInstanceOf[Access]
     val frame = ctxt.frame.asInstanceOf[Frame]
@@ -229,6 +255,19 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
       case "-" => (body._1 + emit.emitNEGOP(body._2, frame), body._2)
     }
 
+  }
+
+  override def visitId(ast: Id, c: Any): Any = {
+    println("visit iddddddddddddddddddddd")
+    val ctxt = c.asInstanceOf[Access]
+    val frame = ctxt.frame
+    val sym = ctxt.sym
+    val symbol = lookup(ast.name, sym, (s:Symbol) => s.name).get
+    val symval = symbol.value.asInstanceOf[Index].value
+    if (ctxt.isLeft && !ctxt.isFirst)
+      (emit.emitWRITEVAR(ast.name, symbol.typ, symval, frame), symbol.typ)
+    else
+      (emit.emitREADVAR(ast.name, symbol.typ, symval, frame), symbol.typ)
   }
 
 }
