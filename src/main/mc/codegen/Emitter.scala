@@ -164,10 +164,11 @@ class Emitter(filename:String) {
 	def emitWRITEVAR(name:String,inType:Type,index:Int,frame:Frame) = 
 	{
 		//..., value -> ...
-		frame.pop();    
+		frame.pop();
     
     inType match {
       case (IntType ) => jvm.emitISTORE(index)
+			case (FloatType ) => jvm.emitFSTORE(index)
 
       case (ArrayPointerType(_)|ClassType(_)|StringType) => jvm.emitASTORE(index)
       
@@ -380,36 +381,36 @@ class Emitter(filename:String) {
        	frame.pop();
   		  frame.pop();
        	op match {
-          case ">" =>
+          case ">" => //result.append(jvm.emitIFICMPLE(labelF));
 						if (in == IntType)
 							result.append(jvm.emitIFICMPLE(labelF));
 						else
 							result.append(jvm.emitIFLE(labelF));
 
-          case ">=" =>
+          case ">=" => //result.append(jvm.emitIFICMPLT(labelF));
 						if (in == IntType)
 							result.append(jvm.emitIFICMPLT(labelF));
 						else
 							result.append(jvm.emitIFLT(labelF));
-          case "<" =>
+          case "<" => //result.append(jvm.emitIFICMPGE(labelF));
 						if (in == IntType)
 							result.append(jvm.emitIFICMPGE(labelF));
 						else
 							result.append(jvm.emitIFGE(labelF));
 
-          case "<=" =>
+          case "<=" => //result.append(jvm.emitIFICMPGT(labelF));
 						if (in == IntType)
 							result.append(jvm.emitIFICMPGT(labelF));
 						else
 							result.append(jvm.emitIFGT(labelF));
 
-          case "!=" =>
+          case "!=" => //result.append(jvm.emitIFICMPEQ(labelF))
 						if (in == IntType)
 							result.append(jvm.emitIFICMPEQ(labelF))
 						else
 							result.append(jvm.emitIFEQ(labelF))
 
-					case "==" =>
+					case "==" => //result.append(jvm.emitIFICMPNE(labelF))
 						if (in == IntType)
 							result.append(jvm.emitIFICMPNE(labelF))
 						else
