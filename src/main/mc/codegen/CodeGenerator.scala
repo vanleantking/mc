@@ -220,114 +220,59 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     val ctxt = c.asInstanceOf[Access]
     val frame = ctxt.frame
     var left = ast.left.accept(this, c).asInstanceOf[(String, Type)]
-    var right = ast.right.accept(this, Access(frame, ctxt.sym, true, false)).asInstanceOf[(String, Type)]
+    var right = ast.right.accept(this, c).asInstanceOf[(String, Type)]
     var typeop = left._2
+    val sym = ctxt.sym
+    val accss = Access(frame,sym,true,false)
 
-    if (left._2 == IntType && right._2 == FloatType) {
-      typeop = right._2
-    }
-    /**
-      * now only process for + - * / operators
-      */
-    // TODO: still not compare in float number (>, <, >=...)
-    var op = ast.op match  {
-      case "+" | "-" => emit.emitADDOP(ast.op, typeop, frame)
-      case "*" | "/" => emit.emitMULOP(ast.op, typeop, frame)
-      case "&&" => emit.emitANDOP(frame)
-      case "||" => emit.emitOROP(frame)
-      case "%" => emit.emitMOD(frame)
-      case "=" => ""
-      case "<" | "<=" | ">" | ">=" | "==" | "!=" => emit.emitREOP(ast.op, typeop, frame)
-    }
-    if (op == "") {
-      emit.printout(right._1 + left._1)
-    }
-    else{
-      if (left._2 == right._2) {
-        (left._1 + right._1 + op, left._2)
-      } else {
-        if (left._2 == FloatType && right._2 == IntType) {
-          (left._1 + right._1 + emit.emitI2F(frame) + op, typeop)
-        } else if (left._2 == IntType && right._2 == FloatType) {
-          (left._1 + emit.emitI2F(frame) + right._1 + op, typeop)
-        } else if(left._2 == BoolType || right._2 == BoolType){
+    if (ast.op == "=") {
+      val rhs = ast.right.accept(this,c).asInstanceOf[(String, Type)]
+      val lhs = ast.left.accept(this,accss).asInstanceOf[(String, Type)]
+      var optype = {
+        if(lhs._2 == FloatType && rhs._2 == IntType)
+          emit.emitI2F(frame)
+        else "" //lhs._2
+      }
+      emit.printout(rhs._1 + optype + lhs._1)
+    } else {
+      if (left._2 == IntType && right._2 == FloatType) {
+        typeop = right._2
+      }
+      var op = ""
+      ast.op match {
+        case "+" | "-" | "*" | "/" => {
+          if (ast.op == "+" || ast.op == "-") {
+            op = emit.emitADDOP(ast.op, typeop, frame)
+          } else if (ast.op == "*" || ast.op == "/") {
+            op = emit.emitMULOP(ast.op, typeop, frame)
+          }
+          if (left._2 == right._2) {
+            (left._1 + right._1 + op, left._2)
+          } else {
+            if (left._2 == FloatType && right._2 == IntType) {
+              (left._1 + right._1 + emit.emitI2F(frame) + op, typeop)
+            } else if (left._2 == IntType && right._2 == FloatType) {
+              (left._1 + emit.emitI2F(frame) + right._1 + op, typeop)
+            }
+          }
+        }
+        case "&&" | "||" => {
+          if (ast.op == "&&") {
+            op = emit.emitANDOP(frame)
+          } else op = emit.emitOROP(frame)
+          (left._1 + right._1 + op, BoolType)
+        }
+        case "%" => {
+          op = emit.emitMOD(frame)
+          (left._1 + right._1 + op, left._2)
+        }
+        case ">" | ">=" | "<" | "<=" | "==" | "!=" => {
+          op = emit.emitREOP(ast.op, typeop, frame)
           (left._1 + right._1 + op, BoolType)
         }
       }
     }
   }
-
-//  override def visitBinaryOp(ast: BinaryOp, c: Any): Any =
-//  {
-//    val ctxt = c.asInstanceOf[Access]//[SubBody] //
-//  val frame = ctxt.frame
-//    val sym = ctxt.sym
-//    val accss = Access(frame,sym,true,false)
-//
-//    if (ast.op == "="){
-//      val rhs = ast.right.accept(this,c).asInstanceOf[(String, Type)]
-//      val lhs = ast.left.accept(this,accss).asInstanceOf[(String, Type)]
-//      var optype = {
-//        if(lhs._2 == FloatType && rhs._2 == IntType)
-//          emit.emitI2F(frame)
-//        else "" //lhs._2
-//      }
-//      emit.printout(rhs._1 + optype + lhs._1)
-//    }
-//    else if((ast.op == ">") || (ast.op == ">=") ||
-//      (ast.op == "<") || (ast.op == "<=") ||
-//      (ast.op == "!=") || (ast.op == "=="))
-//    {
-//      val lhs = ast.left.accept(this, c).asInstanceOf[(String, Type)]
-//      val rhs = ast.right.accept(this, c).asInstanceOf[(String, Type)]
-//      var optype =  lhs._2
-//      //var ope = emit.emitRELOP(ast.op, optype,1, 0, frame)
-//      var ope = emit.emitREOP(ast.op, optype, frame)
-//      if (lhs._2 == rhs._2) {
-//        (lhs._1 + rhs._1 + ope,optype)
-//      }
-//      else {
-//        if (lhs._2 == FloatType && rhs._2 == IntType) {
-//          (lhs._1 + rhs._1 + emit.emitI2F(frame) + ope, optype)
-//        }
-//        else if (lhs._2 == IntType && rhs._2 == FloatType) {
-//          (lhs._1 + emit.emitI2F(frame) + rhs._1 + ope, optype)
-//        }
-//        else if (lhs._2 == BoolType || rhs._2 == BoolType) {
-//          (lhs._1 + rhs._1 + ope, BoolType)
-//        }
-//      }
-//    }
-//    else {
-//      val lhs = ast.left.accept(this,c).asInstanceOf[(String, Type)]
-//      val rhs = ast.right.accept(this,c).asInstanceOf[(String, Type)]
-//      var optype = lhs._2
-//
-//      if (lhs._2 == IntType && rhs._2 == FloatType) {
-//        optype = rhs._2
-//      }
-//      var ope = ast.op match
-//      {
-//        case ("+" | "-") => emit.emitADDOP(ast.op, optype, frame)
-//        case ("*" | "/") => emit.emitMULOP(ast.op, optype, frame)
-//        case ("%") => emit.emitMOD(frame)
-//        case "&&" => emit.emitANDOP(frame)
-//        case "||" => emit.emitOROP(frame)
-//      }
-//      if (lhs._2 == rhs._2) {
-//        (lhs._1 + rhs._1 + ope, lhs._2)
-//      }
-//      else {
-//        if (lhs._2 == FloatType && rhs._2 == IntType) {
-//          (lhs._1 + rhs._1 + emit.emitI2F(frame) + ope, optype)
-//        }
-//        else if (lhs._2 == IntType && rhs._2 == FloatType) {
-//          (lhs._1 + emit.emitI2F(frame) + rhs._1 + ope, optype)
-//        }
-//
-//      }
-//    }
-//  }
 
   override def visitUnaryOp(ast: UnaryOp, c: Any): Any = {
     val ctxt = c.asInstanceOf[Access]

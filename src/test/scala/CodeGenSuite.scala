@@ -346,8 +346,8 @@ class CodeGenSuite extends FunSuite with TestCodeGen {
   }
 
   test(" 550")  {
-    val input = "void main () {int a;int b;a=4;b=5;putBoolLn(a>b);}"
-    val expected = "0"
+    val input = "void main () {int a;int b;a=4;b=5;putBoolLn(a>=b);}"
+    val expected = "false"
     assert(checkCode(input,expected,550))
   }
 

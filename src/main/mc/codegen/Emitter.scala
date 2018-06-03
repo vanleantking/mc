@@ -381,47 +381,47 @@ class Emitter(filename:String) {
        	frame.pop();
   		  frame.pop();
        	op match {
-          case ">" => //result.append(jvm.emitIFICMPLE(labelF));
-						if (in == IntType)
-							result.append(jvm.emitIFICMPLE(labelF));
-						else
-							result.append(jvm.emitIFLE(labelF));
+          case ">" => result.append(jvm.emitIFICMPLE(labelF));
+//						if (in == IntType)
+//							result.append(jvm.emitIFICMPLE(labelF));
+//						else
+//							result.append(jvm.emitIFLE(labelF));
 
-          case ">=" => //result.append(jvm.emitIFICMPLT(labelF));
-						if (in == IntType)
-							result.append(jvm.emitIFICMPLT(labelF));
-						else
-							result.append(jvm.emitIFLT(labelF));
-          case "<" => //result.append(jvm.emitIFICMPGE(labelF));
-						if (in == IntType)
-							result.append(jvm.emitIFICMPGE(labelF));
-						else
-							result.append(jvm.emitIFGE(labelF));
+          case ">=" => result.append(jvm.emitIFICMPLT(labelF));
+//						if (in == IntType)
+//							result.append(jvm.emitIFICMPLT(labelF));
+//						else
+//							result.append(jvm.emitIFLT(labelF));
+          case "<" => result.append(jvm.emitIFICMPGE(labelF));
+//						if (in == IntType)
+//							result.append(jvm.emitIFICMPGE(labelF));
+//						else
+//							result.append(jvm.emitIFGE(labelF));
 
-          case "<=" => //result.append(jvm.emitIFICMPGT(labelF));
-						if (in == IntType)
-							result.append(jvm.emitIFICMPGT(labelF));
-						else
-							result.append(jvm.emitIFGT(labelF));
+          case "<=" => result.append(jvm.emitIFICMPGT(labelF));
+//						if (in == IntType)
+//							result.append(jvm.emitIFICMPGT(labelF));
+//						else
+//							result.append(jvm.emitIFGT(labelF));
 
-          case "!=" => //result.append(jvm.emitIFICMPEQ(labelF))
-						if (in == IntType)
-							result.append(jvm.emitIFICMPEQ(labelF))
-						else
-							result.append(jvm.emitIFEQ(labelF))
+          case "!=" => result.append(jvm.emitIFICMPEQ(labelF))
+//						if (in == IntType)
+//							result.append(jvm.emitIFICMPEQ(labelF))
+//						else
+//							result.append(jvm.emitIFEQ(labelF))
 
-					case "==" => //result.append(jvm.emitIFICMPNE(labelF))
-						if (in == IntType)
-							result.append(jvm.emitIFICMPNE(labelF))
-						else
-							result.append(jvm.emitIFNE(labelF))
+					case "==" => result.append(jvm.emitIFICMPNE(labelF))
+//						if (in == IntType)
+//							result.append(jvm.emitIFICMPNE(labelF))
+//						else
+//							result.append(jvm.emitIFNE(labelF))
 
         }
-       	result.append(emitPUSHCONST("1", in,frame));
+       	result.append(emitPUSHCONST("1", IntType,frame));
         frame.pop()
        	result.append(emitGOTO(labelO,frame));
       	result.append(emitLABEL(labelF,frame));
-       	result.append(emitPUSHCONST("0", in,frame));
+       	result.append(emitPUSHCONST("0", IntType,frame));
        	result.append(emitLABEL(labelO,frame));
        	result.toString();
 	}
