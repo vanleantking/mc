@@ -213,7 +213,6 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     val idx = frame.getNewIndex()
     emit.printout(emit.emitVAR(idx, ast.variable.name, ast.varType, frame.getStartLabel(), frame.getEndLabel(), frame))
     env :+ Symbol(ast.variable.name, ast.varType, Index(idx))
-//    Access(frame, Symbol(ast.variable.name, ast.varType, Index(idx))::env)
   }
 
   override def visitBinaryOp(ast: BinaryOp, c: Any): Any = {
@@ -222,18 +221,15 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     var left = ast.left.accept(this, c).asInstanceOf[(String, Type)]
     var right = ast.right.accept(this, c).asInstanceOf[(String, Type)]
     var typeop = left._2
-    val sym = ctxt.sym
-    val accss = Access(frame,sym,true,false)
 
     if (ast.op == "=") {
-      val rhs = ast.right.accept(this,c).asInstanceOf[(String, Type)]
-      val lhs = ast.left.accept(this,accss).asInstanceOf[(String, Type)]
-      var optype = {
-        if(lhs._2 == FloatType && rhs._2 == IntType)
+      left = ast.left.accept(this,Access(frame,ctxt.sym,true,false)).asInstanceOf[(String, Type)]
+      var cnv = {
+        if (left._2 == FloatType && right._2 == IntType)
           emit.emitI2F(frame)
-        else "" //lhs._2
+        else ""
       }
-      emit.printout(rhs._1 + optype + lhs._1)
+      emit.printout(right._1 + cnv + left._1)
     } else {
       if (left._2 == IntType && right._2 == FloatType) {
         typeop = right._2
