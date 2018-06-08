@@ -1,0 +1,10 @@
+- short circut evaluation <= viet lai chuong trinh trong truong hop short-cicuit evaluation
+- Type inference
+- Memory management: global scope, local scope (static, dynamic binding)
+- Jasmin code
+- Parameter passing (name, value, result, value-result, reference)
+- garbage collection (tham chieu treo)
+- data types (union, string...) => how many bytes to save those data types
+- hieu ung le (affect side) <= gia tri cua bien bao gom nhung gia tri gi khi co hieu ung le
+- Viet lai bieu thuc chinh qui tren Scala
+
