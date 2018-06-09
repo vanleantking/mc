@@ -192,16 +192,15 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
   }
 
   override def visitBlock(ast: Block, c: Any): Any = {
-    val ctxt = c.asInstanceOf[Access]
-    val frame = ctxt.frame.asInstanceOf[Frame]
+    val ctxt = c.asInstanceOf[SubBody]
+    val frame = ctxt.frame
     val lstenv = ctxt.sym
 
     frame.enterScope(true)
-    val newEnv = ast.decl.filter(_.isInstanceOf[VarDecl]).foldLeft(lstenv)((a, b) => {
-      val varDecl = b.asInstanceOf[VarDecl]
-      val symbol = Symbol(varDecl.variable.name, varDecl.varType, Index(frame.getNewIndex()))
-      symbol::a})
-    ast.stmt.foreach(stmt => visit(stmt, Access(frame, newEnv, false, true)))
+    val newEnv = ast.decl.filter(_.isInstanceOf[VarDecl]).foldLeft(lstenv)((a, b) => visit(b, SubBody(frame, a)).asInstanceOf[List[Symbol]])
+    emit.printout(emit.emitLABEL(frame.getStartLabel(),frame))
+    ast.stmt.foreach(stmt => visit(stmt, Access(frame, newEnv:::lstenv, false, true)))
+    emit.printout(emit.emitLABEL(frame.getEndLabel(),frame))
     frame.exitScope()
 
   }
