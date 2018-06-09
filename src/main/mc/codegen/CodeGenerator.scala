@@ -110,7 +110,6 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     if (isMain) emit.printout(emit.emitVAR(frame.getNewIndex,"args",ArrayPointerType(StringType),frame.getStartLabel,frame.getEndLabel,frame))
 
     val body = consdecl.body.asInstanceOf[Block]
-    emit.printout(emit.emitLABEL(frame.getStartLabel(),frame))
 
     //Generate code for statements
     if (isInit) {
@@ -120,6 +119,7 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     // generate code for local declarations
     val newenv = body.decl.foldLeft(List[Symbol]())((x,y) => visit(y, SubBody(frame, x)).asInstanceOf[List[Symbol]])
     // start label khai bao sau khai bao, bat dau phan ma
+    emit.printout(emit.emitLABEL(frame.getStartLabel(),frame))
 
 //    val subBody = body.decl.foldLeft(Access(frame, glenv, true, false))((x, y) => visit(y, x).asInstanceOf[Access])
 
