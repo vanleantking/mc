@@ -357,11 +357,11 @@ class CodeGenSuite extends FunSuite with TestCodeGen {
     assert(checkCode(input,expected,551))
   }
 
-//  test(" 552")  {
-//    val input = "void main () {int b;b=5;putIntLn(b);}"
-//    val expected = "false"
-//    assert(checkCode(input,expected,552))
-//  }
+  test(" 552")  {
+    val input = "void main () {int b;b=5;putIntLn(b);}"
+    val expected = "5"
+    assert(checkCode(input,expected,552))
+  }
 
 
 //  test("551") {
