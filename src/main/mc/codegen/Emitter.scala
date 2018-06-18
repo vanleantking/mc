@@ -13,7 +13,7 @@ import java.text.DecimalFormat
 import java.util.Iterator
 
 import mc.utils._
-import mc.checker._
+//import mc.checker._
 
 
 class Emitter(filename:String) {

@@ -12,7 +12,7 @@ package mc.codegen
 
 
 
-import mc.checker._
+//import mc.checker._
 import mc.utils._
 import java.io.{PrintWriter, File}
 
