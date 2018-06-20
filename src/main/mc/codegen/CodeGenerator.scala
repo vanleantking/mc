@@ -75,7 +75,20 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
 
 
     emit.printout(emit.emitPROLOG(className, "java.lang.Object"))
-    ast.decl.foldLeft(SubBody(null,env))((e,x) => visit(x,e).asInstanceOf[SubBody])
+    val newEnv = ast.decl.filter(_.isInstanceOf[VarDecl]).foldLeft(env) ((e,x)=> {
+      val vdecl = x.asInstanceOf[VarDecl]
+      //ast.decl.filter(p=>p.isInstanceOf[VarDecl]).foldLeft(env)((e,x)=>
+      emit.printout(emit.emitATTRIBUTE(vdecl.variable.name, vdecl.varType,false, ""))
+      Symbol(vdecl.variable.name, vdecl.varType, CName(className)) :: e})
+
+    val glEnv2 = ast.decl.filter(_.isInstanceOf[FuncDecl]).foldLeft(newEnv)((x, y) => {
+      val funcs = y.asInstanceOf[FuncDecl]
+      Symbol(funcs.name.name,
+        FunctionType(funcs.param.foldRight(List[Type]())((a, b) => a.varType :: b), funcs.returnType),
+        CName(className)) :: x
+    })
+
+    ast.decl.filter(p=>p.isInstanceOf[FuncDecl]).foldLeft(SubBody(null,glEnv2))((e,x) => visit(x,e).asInstanceOf[SubBody])
     // generate default constructor
     genMETHOD(
       FuncDecl(Id("<init>"),List(),null,Block(List(),List())),c,new Frame("<init>",VoidType))
@@ -207,11 +220,16 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
 
   override def visitVarDecl(ast: VarDecl, c: Any): Any = {
     val ctxt = c.asInstanceOf[SubBody]
-    val frame = ctxt.frame
+    val frame = if(ctxt.frame != null) ctxt.frame else new Frame(ast.variable.name,ast.varType)
     val env = ctxt.sym
     val idx = frame.getNewIndex()
-    emit.printout(emit.emitVAR(idx, ast.variable.name, ast.varType, frame.getStartLabel(), frame.getEndLabel(), frame))
-    env :+ Symbol(ast.variable.name, ast.varType, Index(idx))
+    if (ctxt.frame != null) {
+      emit.printout(emit.emitVAR(idx, ast.variable.name, ast.varType, frame.getStartLabel(), frame.getEndLabel(), frame))
+      env :+ Symbol(ast.variable.name, ast.varType, Index(idx))
+    } else {
+      emit.printout(emit.emitATTRIBUTE(ast.variable.name, ast.varType, false, ""))
+      env :+ Symbol(ast.variable.name, ast.varType, CName(ast.variable.name))
+    }
   }
 
   override def visitBinaryOp(ast: BinaryOp, c: Any): Any = {
@@ -285,14 +303,23 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     val frame = ctxt.frame
     val sym = ctxt.sym
     val symbol = lookup(ast.name, sym, (s:Symbol) => s.name).get
-    val symval = symbol.value.asInstanceOf[Index].value
-    if (ctxt.isLeft && !ctxt.isFirst){
-      (emit.emitWRITEVAR(ast.name, symbol.typ, symval, frame), symbol.typ)
-    }
-    else{
-      (emit.emitREADVAR(ast.name, symbol.typ, symval, frame), symbol.typ)
-    }
 
+    if (symbol.value.isInstanceOf[CName]) {
+      if (ctxt.isLeft){
+        (emit.emitPUTSTATIC(className + "." + ast.name, symbol.typ, frame), symbol.typ)
+      }
+      else{
+        (emit.emitGETSTATIC(className + "." + ast.name, symbol.typ, frame), symbol.typ)
+      }
+    } else {
+      val symval = symbol.value.asInstanceOf[Index].value
+      if (ctxt.isLeft && !ctxt.isFirst){
+        (emit.emitWRITEVAR(ast.name, symbol.typ, symval, frame), symbol.typ)
+      }
+      else {
+        (emit.emitREADVAR(ast.name, symbol.typ, symval, frame), symbol.typ)
+      }
+    }
   }
 
 }
