@@ -136,6 +136,7 @@ class Emitter(filename:String) {
 			frame.push();
       inType match {
         case (IntType) => jvm.emitILOAD(index)
+				case (FloatType) => jvm.emitFLOAD(index)
         case (ArrayPointerType(_)|ClassType(_)|StringType) => jvm.emitALOAD(index)
         case _ => throw IllegalOperandException(name)
       }
