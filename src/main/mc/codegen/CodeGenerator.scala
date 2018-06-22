@@ -248,6 +248,7 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
         else ""
       }
       emit.printout(right._1 + cnv + left._1)
+      (right._1 + cnv + left._1,left._2)
     } else {
       if (left._2 == IntType && right._2 == FloatType) {
         typeop = right._2
@@ -349,6 +350,69 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
         emit.printout(emit.emitLABEL(label1,frame))
       }
     }
+    c
+  }
+
+  override def visitDowhile(ast: Dowhile, c: Any): Any = {
+    val ctxt = c.asInstanceOf[SubBody]
+    val frame = ctxt.frame
+    val expr = if (ast.exp.isInstanceOf[Expr]) visit(ast.exp,Access(frame, ctxt.sym, false, false)).asInstanceOf[(String, Type)]
+    else visit(ast.exp,SubBody(frame, ctxt.sym)).asInstanceOf[(String, Type)]
+    frame.enterLoop()
+    val label1 = frame.getContinueLabel()
+    val label2 = frame.getBreakLabel()
+    emit.printout(emit.emitLABEL(label1,frame))
+    ast.sl.foreach(x=>{
+      if (x.isInstanceOf[Expr])
+        visit(x, Access(frame, ctxt.sym, false, true))
+      else visit(x,SubBody(frame, ctxt.sym))}
+    )
+    emit.printout(expr._1)
+    emit.printout(emit.jvm.emitIFEQ(label2))//emitIFFALSE(label2, frame))
+    emit.printout(emit.emitGOTO(label1, frame))
+    emit.printout(emit.emitLABEL(label2,frame))
+    frame.exitLoop()
+    c
+  }
+
+  override def visitContinue(ast: Continue.type, c: Any): Any = {
+    val ctxt = c.asInstanceOf[SubBody]
+    val frame = ctxt.frame
+    emit.printout(emit.emitGOTO(frame.getContinueLabel(), frame))
+    c
+  }
+
+  override def visitBreak(ast: Break.type, c: Any): Any = {
+    val ctxt = c.asInstanceOf[SubBody]
+    val frame = ctxt.frame
+    emit.printout(emit.emitGOTO(frame.getBreakLabel(), frame))
+    c
+  }
+
+  override def visitFor(ast: For, c: Any): Any = {
+    val ctxt = c.asInstanceOf[SubBody]
+    val frame = ctxt.frame
+    val expr1 = if (ast.expr1.isInstanceOf[Expr]) visit(ast.expr1,Access(frame, ctxt.sym, false, false)).asInstanceOf[(String, Type)]
+    else visit(ast.expr1,SubBody(frame, ctxt.sym)).asInstanceOf[(String, Type)]
+    val expr2 = if (ast.expr2.isInstanceOf[Expr]) visit(ast.expr2,Access(frame, ctxt.sym, false, false)).asInstanceOf[(String, Type)]
+    else visit(ast.expr2,SubBody(frame, ctxt.sym)).asInstanceOf[(String, Type)]
+    val expr3 = if (ast.expr3.isInstanceOf[Expr]) visit(ast.expr3,Access(frame, ctxt.sym, false, false)).asInstanceOf[(String, Type)]
+    else visit(ast.expr3,SubBody(frame, ctxt.sym)).asInstanceOf[(String, Type)]
+
+    frame.enterLoop()
+    val label1 = frame.getContinueLabel()
+    val label2 = frame.getBreakLabel()
+    emit.printout(expr1._1)
+    emit.printout(emit.emitLABEL(label1,frame))
+    emit.printout(expr2._1)
+    emit.printout(emit.jvm.emitIFEQ(label2))
+    if (ast.loop.isInstanceOf[Expr])
+      visit(ast.loop, Access(frame, ctxt.sym, false, true))
+    else visit(ast.loop,SubBody(frame, ctxt.sym))
+    emit.printout(expr3._1)
+    emit.printout(emit.emitGOTO(label1, frame))
+    emit.printout(emit.emitLABEL(label2,frame))
+    frame.exitLoop()
     c
   }
 

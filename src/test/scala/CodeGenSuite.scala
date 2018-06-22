@@ -405,17 +405,40 @@ class CodeGenSuite extends FunSuite with TestCodeGen {
     val expected = "6"
     assert(checkCode(input,expected,559))
   }
-//  test("560") {
-//    val input = "void main () { float a; float b; int c; c = 4; a= 3.0 ; b = 1.5; if (a > b) c = 100; else c = 200;}"
-//    val expected = "6"
-//    assert(checkCode(input,expected,560))
-//  }
-
+////  test("560") {
+////    val input = "void main () { float a; float b; int c; c = 4; a= 3.0 ; b = 1.5; if (a > b) c = 100; else c = 200;}"
+////    val expected = "6"
+////    assert(checkCode(input,expected,560))
+////  }
+//
   test(" Try to casting type") {
     val input= "void main () { float a; a = 5; putFloat(a); }"
-    ""
     val expected = "5.0"
     assert(checkCode(input, expected, 560))
+  }
+
+  test(" Try to casting type 561") {
+    val input= "void main () {int a; a=0; do {a = a+1; putInt(a);} while(a<3); }"
+    val expected = "123"
+    assert(checkCode(input, expected, 561))
+  }
+
+  test(" Try to casting type 562") {
+    val input= "void main () {int a; a=0; do {a = a+1; if(a==1) continue; putInt(a);} while(a<3); }"
+    val expected = "23"
+    assert(checkCode(input, expected, 562))
+  }
+
+  test(" Try to casting type 563") {
+    val input= "void main () {int a; a=0; do { if(a==1) break; putInt(a);a=a+1;} while(a<5); }"
+    val expected = "0"
+    assert(checkCode(input, expected, 563))
+  }
+
+  test(" Try to casting type 564") {
+    val input= "void main () {int a; for(a=0;a<4;a=a+1) putInt(a); }"
+    val expected = "0123"
+    assert(checkCode(input, expected, 564))
   }
 
 //  test(" Try to casting type 561") {
