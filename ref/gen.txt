@@ -38,4 +38,28 @@ emit.printout(emit.emitVAR(idx,ast.variable.name,ast.varType,frame.getStartLabel
 venv :+ (ast.variable.name, ast.varType, Index(idx))
 
 
+
+val subBody = body.decl.foldLeft(SubBody(frame, glenv))((x, y) => visit(y, x).asInstanceOf[SubBody]) body.stmt.map(x=>{   if (x.isInstanceOf[Expr])  visit(x, Access(subBody.frame, subBody.sym, isLeft = false, isFirst = true))   else visit(x,subBody) })
+
+
+
+SubContext: generate code cho khai bao field <= khai bao cho thuoc tinh, method
+
+
+
+Subbody: sinh code cho statement trong method
+=> trong method, bao gio cung co list sym
+sym co name, type, val
+=> val la index<= local variable
+hoac const <= la hang
+
+
+
+
+
+Access: sinh code cho expression
+
+
+khi gap khai bao thi chung ta goi getNewIndex tu Frame
+
  

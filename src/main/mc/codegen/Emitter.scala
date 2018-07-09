@@ -587,7 +587,9 @@ def emitRELOP( op:String,  in:Type,trueLabel:Int,falseLabel:Int,frame:Frame) =
 	def emitRETURN(in:Type,frame:Frame) = 
 	{
 		in match {
-      case (IntType ) => frame.pop();jvm.emitIRETURN()
+      case (IntType ) | (BoolType) => frame.pop();jvm.emitIRETURN()
+			case (FloatType ) => frame.pop();jvm.emitFRETURN()
+			case (StringType ) => frame.pop();jvm.emitRETURN()
 
       case VoidType => jvm.emitRETURN()
 

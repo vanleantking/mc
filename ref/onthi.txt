@@ -3,8 +3,19 @@
 - Memory management: global scope, local scope (static, dynamic binding)
 - Jasmin code
 - Parameter passing (name, value, result, value-result, reference)
-- garbage collection (tham chieu treo)
+- garbage collection (tham chieu treo), binding (static binding, dynamic binding)
 - data types (union, string...) => how many bytes to save those data types
 - hieu ung le (affect side) <= gia tri cua bien bao gom nhung gia tri gi khi co hieu ung le
 - Viet lai bieu thuc chinh qui tren Scala
+- Reference environtment <= list of symbols => static scope, dynamic scope
+
+
+=> pass by name
+
+padding: khi cap phat bo nho trong khai bao, thi phai padding de luon luon la boi cua max nhat trong o nho ma minh cap
+
+convert to binary 754
+
+
+def method(idlist: )
 

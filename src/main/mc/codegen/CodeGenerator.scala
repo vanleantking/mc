@@ -416,4 +416,38 @@ class CodeGenVisitor(astTree:AST,env:List[Symbol],dir:File) extends BaseVisitor 
     c
   }
 
+//  override def visitReturn(ast: Return, c: Any): Any = {
+//    val ctxt = c.asInstanceOf[SubBody]
+//    val frame = ctxt.frame
+//    ast.expr match {
+//      case Some(stmt) => {
+//        val expr = if(stmt.isInstanceOf[Expr])
+//          visit(stmt, Access(frame, ctxt.sym, false, false)).asInstanceOf[(String, Type)]
+//        else
+//          visit(stmt, SubBody(frame, ctxt.sym)).asInstanceOf[(String, Type)]
+//
+//        emit.printout(expr._1)
+//        emit.printout(emit.emitRETURN(expr._2, frame))
+//      }
+//      case None => emit.printout(emit.emitRETURN(VoidType, frame))
+//    }
+//  }
+
+//  override def visitReturn(ast: Return, c: Any): Any =  {
+//    val ctxt = c.asInstanceOf[SubBody]
+//    val frame = ctxt.frame
+//    //val accss = Access(frame,ctxt.sym,false,true)
+//    var exp = if (ast.expr.nonEmpty) {
+//      val ret = if(ast.expr.get.isInstanceOf[Expr])
+//                visit(ast.expr.get, Access(frame, ctxt.sym, false, false)).asInstanceOf[(String, Type)]
+//              else
+//                visit(ast.expr.get, SubBody(frame, ctxt.sym)).asInstanceOf[(String, Type)]
+////      visit(ast.expr.get,ctxt).asInstanceOf[(String, Type)]
+//      emit.printout(ret._1)
+//      ret._2
+//    } else
+//      VoidType
+//    emit.printout(emit.emitRETURN(exp,frame))
+//  }
+
 }

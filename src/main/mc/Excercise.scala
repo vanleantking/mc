@@ -31,12 +31,13 @@ object Excercise extends BaseVisitor with Utils {
 //  def checkDuplicateLocal(ast: Program) : Boolean =
 //    ast.decl.filter(p=>p.isInstanceOf[FuncDecl]).for
 
-//  def question2(lst:List[VarDecl]):Boolean =    {
-//    if(lst.size == 1) false
-//    else if (lookup(lst.head.variable.name,lst.tail,(s:VarDecl)=>s.variable.name != None))
-//      true
-//    else question2(lst.tail)
-//  }
+  def question2(lst:List[VarDecl]):Boolean =    {
+    if(lst.size == 1) false
+    else if(lookup(lst.head.variable.name.toString, lst.tail,(s:VarDecl) => s.variable.name.toString) != None)
+//    else if (lookup(lst.head.variable.name,lst.tail,(s:VarDecl)=>s.variable.name.toString))
+      true
+    else question2(lst.tail)
+  }
 
 
 }
